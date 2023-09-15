@@ -666,11 +666,13 @@ export function Settings() {
               }
             ></input>
           </ListItem> */}
+
+          {/* 数据导出功能 */}
+        <SyncItems />
         </List>
 
 
-        {/* 数据导出功能 */}
-        <SyncItems />
+        
 
         <List>
           {/* 面具启动页功能 */}
