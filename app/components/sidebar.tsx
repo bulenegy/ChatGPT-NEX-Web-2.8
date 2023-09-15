@@ -6,6 +6,7 @@ import { IconButton } from "./button";
 import SettingsIcon from "../icons/settings.svg";
 import GithubIcon from "../icons/github.svg";
 import HelpIcon from "../icons/help.svg";
+import WechatIcon from "../icons/wechat.svg";
 import ChatGptIcon from "../icons/chatgpt.svg";
 import AddIcon from "../icons/add.svg";
 import CloseIcon from "../icons/close.svg";
@@ -24,6 +25,7 @@ import {
   Path,
   REPO_URL,
   HELP_URL,
+  CONTACT_URL,
 } from "../constant";
 
 import { Link, useNavigate } from "react-router-dom";
@@ -139,10 +141,14 @@ export function SideBar(props: { className?: string }) {
           shadow
         />
         <IconButton
-          icon={<PluginIcon />}
+          icon={<WechatIcon />}
           text={shouldNarrow ? undefined : Locale.Plugin.Name}
           className={styles["sidebar-bar-button"]}
-          onClick={() => showToast(Locale.WIP)}
+          
+          // a5470 联系客服跳转
+          // onClick={() => showToast(Locale.WIP)}
+          // onClick={() => window.open(LEARN_URL, '_blank')} 
+          onClick={() => window.open(CONTACT_URL, '_blank')} 
           shadow
         />
       </div>
@@ -186,11 +192,16 @@ export function SideBar(props: { className?: string }) {
             icon={<AddIcon />}
             text={shouldNarrow ? undefined : Locale.Home.NewChat}
             onClick={() => {
+
+              //a5470 此处修改是取消新建聊天启动面具，步骤一
               if (config.dontShowMaskSplashScreen) {
+                // chatStore.newSession();
+                // navigate(Path.Chat);
+                navigate(Path.NewChat);
+              } else {
+                // navigate(Path.NewChat);
                 chatStore.newSession();
                 navigate(Path.Chat);
-              } else {
-                navigate(Path.NewChat);
               }
             }}
             shadow

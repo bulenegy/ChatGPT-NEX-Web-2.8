@@ -133,7 +133,8 @@ export function NewChat() {
               if (await showConfirm(Locale.NewChat.ConfirmNoShow)) {
                 startChat();
                 config.update(
-                  (config) => (config.dontShowMaskSplashScreen = true),
+                  //a5470  此处修改是取消新建聊天启动面具，步骤二：turn=>false
+                  (config) => (config.dontShowMaskSplashScreen = false),
                 );
               }
             }}

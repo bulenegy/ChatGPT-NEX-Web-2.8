@@ -11,6 +11,7 @@ export const RUNTIME_CONFIG_DOM = "danger-runtime-config";
 export const DEFAULT_API_HOST = "https://api.openai.com/";
 export const HELP_URL = "https://j.apagpt.com/help";
 export const LEARN_URL="https://j.apagpt.com/help"
+export const CONTACT_URL="https://j.apagpt.com/contact"
 
 export enum Path {
   Home = "/",
