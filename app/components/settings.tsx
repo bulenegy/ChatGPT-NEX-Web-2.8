@@ -568,23 +568,23 @@ export function Settings() {
 
         <List>
           {/* 访问密码功能 */}
-          {showAccessCode ? (
-            // <ListItem
-            //   title={Locale.Settings.AccessCode.Title}
-            //   subTitle={Locale.Settings.AccessCode.SubTitle}
-            // >
-            //   <PasswordInput
-            //     value={accessStore.accessCode}
-            //     type="text"
-            //     placeholder={Locale.Settings.AccessCode.Placeholder}
-            //     onChange={(e) => {
-            //       accessStore.updateCode(e.currentTarget.value);
-            //     }}
-            //   />
-            // </ListItem>
+          {/* {showAccessCode ? (
+            <ListItem
+              title={Locale.Settings.AccessCode.Title}
+              subTitle={Locale.Settings.AccessCode.SubTitle}
+            >
+              <PasswordInput
+                value={accessStore.accessCode}
+                type="text"
+                placeholder={Locale.Settings.AccessCode.Placeholder}
+                onChange={(e) => {
+                  accessStore.updateCode(e.currentTarget.value);
+                }}
+              />
+            </ListItem>
           ) : (
             <></>
-          )}
+          )} */}
 
           
           {!accessStore.hideUserApiKey ? (
@@ -622,33 +622,33 @@ export function Settings() {
           ) : null}
 
 
-          {!accessStore.hideBalanceQuery ? (
+          {/* {!accessStore.hideBalanceQuery ? (
 
-            // 余额查询功能
-            // <ListItem
-            //   title={Locale.Settings.Usage.Title}
-            //   subTitle={
-            //     showUsage
-            //       ? loadingUsage
-            //         ? Locale.Settings.Usage.IsChecking
-            //         : Locale.Settings.Usage.SubTitle(
-            //             usage?.used ?? "[?]",
-            //             usage?.subscription ?? "[?]",
-            //           )
-            //       : Locale.Settings.Usage.NoAccess
-            //   }
-            // >
-            //   {!showUsage || loadingUsage ? (
-            //     <div />
-            //   ) : (
-            //     <IconButton
-            //       icon={<ResetIcon></ResetIcon>}
-            //       text={Locale.Settings.Usage.Check}
-            //       onClick={() => checkUsage(true)}
-            //     />
-            //   )}
-            // </ListItem>
-          ) : null}
+            余额查询功能
+            <ListItem
+              title={Locale.Settings.Usage.Title}
+              subTitle={
+                showUsage
+                  ? loadingUsage
+                    ? Locale.Settings.Usage.IsChecking
+                    : Locale.Settings.Usage.SubTitle(
+                        usage?.used ?? "[?]",
+                        usage?.subscription ?? "[?]",
+                      )
+                  : Locale.Settings.Usage.NoAccess
+              }
+            >
+              {!showUsage || loadingUsage ? (
+                <div />
+              ) : (
+                <IconButton
+                  icon={<ResetIcon></ResetIcon>}
+                  text={Locale.Settings.Usage.Check}
+                  onClick={() => checkUsage(true)}
+                />
+              )}
+            </ListItem>
+          ) : null} */}
 
           {/* 自定义模型名称功能 */}
           {/* <ListItem
