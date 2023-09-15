@@ -12,6 +12,8 @@ import EditIcon from "../icons/edit.svg";
 import EyeIcon from "../icons/eye.svg";
 import DownloadIcon from "../icons/download.svg";
 import UploadIcon from "../icons/upload.svg";
+import BuyIcon from "../icons/buy.svg";
+import LearnIcon from "../icons/learn.svg";
 
 import {
   Input,
@@ -44,7 +46,7 @@ import Locale, {
 } from "../locales";
 import { copyToClipboard } from "../utils";
 import Link from "next/link";
-import { Path, RELEASE_URL, UPDATE_URL } from "../constant";
+import { Path, RELEASE_URL, UPDATE_URL ,HELP_URL,LEARN_URL} from "../constant";
 import { Prompt, SearchService, usePromptStore } from "../store/prompt";
 import { ErrorBoundary } from "./error";
 import { InputRange } from "./input-range";
@@ -618,6 +620,34 @@ export function Settings() {
                   }}
                 />
               </ListItem>
+
+              {/* 付费入口板块 */}
+              <ListItem
+                title="购买API key"
+                subTitle="点击右侧按钮购买API key"
+              > 
+              
+              <IconButton
+                    icon={<BuyIcon></BuyIcon>}
+                    text="点击购买"
+                    // onClick={() => window.location.href = 'http://qr05.cn/Cpk5M6'}
+                    onClick={() => window.open(HELP_URL, '_blank')}
+                  /> 
+              </ListItem>
+
+              {/* 学习使用入口 */}
+              <ListItem
+                title="如何使用"
+                subTitle="点击右侧按钮学习ChatGPT使用技巧"
+              > 
+              <IconButton
+                    icon={<LearnIcon></LearnIcon>}
+                    text="学习使用"
+                    // onClick={() => window.location.href = 'https://qr05.cn/FQEXFL'}
+                    onClick={() => window.open(LEARN_URL, '_blank')}
+                  /> 
+              </ListItem>
+
             </>
           ) : null}
 
@@ -667,11 +697,11 @@ export function Settings() {
             ></input>
           </ListItem> */}
 
-          {/* 数据导出功能 */}
-        <SyncItems />
+         
         </List>
 
-
+         {/* 数据导出功能 */}
+         <SyncItems />
         
 
         <List>

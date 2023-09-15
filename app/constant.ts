@@ -7,7 +7,10 @@ export const RELEASE_URL = `${REPO_URL}/releases`;
 export const FETCH_COMMIT_URL = `https://api.github.com/repos/${OWNER}/${REPO}/commits?per_page=1`;
 export const FETCH_TAG_URL = `https://api.github.com/repos/${OWNER}/${REPO}/tags?per_page=1`;
 export const RUNTIME_CONFIG_DOM = "danger-runtime-config";
-export const DEFAULT_API_HOST = "https://chatgpt1.nextweb.fun/api/proxy";
+// export const DEFAULT_API_HOST = "https://chatgpt1.nextweb.fun/api/proxy";
+export const DEFAULT_API_HOST = "https://api.openai.com/";
+export const HELP_URL = "https://j.apagpt.com/help";
+export const LEARN_URL="https://j.apagpt.com/help"
 
 export enum Path {
   Home = "/",
@@ -69,27 +72,27 @@ export const SUMMARIZE_MODEL = "gpt-3.5-turbo";
 export const DEFAULT_MODELS = [
   {
     name: "gpt-4",
-    available: true,
+    available: false,
   },
   {
     name: "gpt-4-0314",
-    available: true,
+    available: false,
   },
   {
     name: "gpt-4-0613",
-    available: true,
+    available: false,
   },
   {
     name: "gpt-4-32k",
-    available: true,
+    available: false,
   },
   {
     name: "gpt-4-32k-0314",
-    available: true,
+    available: false,
   },
   {
     name: "gpt-4-32k-0613",
-    available: true,
+    available: false,
   },
   {
     name: "gpt-3.5-turbo",
