@@ -268,7 +268,9 @@ function SyncItems() {
 
   return (
     <List>
-      <ListItem
+
+      {/* 上次同步功能 */}
+      {/* <ListItem
         title={Locale.Settings.Sync.LastUpdate}
         subTitle={new Date(syncStore.lastSyncTime).toLocaleString()}
       >
@@ -279,8 +281,9 @@ function SyncItems() {
             showToast(Locale.WIP);
           }}
         />
-      </ListItem>
+      </ListItem> */}
 
+      {/* 本地数据功能 */}
       <ListItem
         title={Locale.Settings.Sync.LocalState}
         subTitle={Locale.Settings.Sync.Overview(stateOverview)}
@@ -406,6 +409,7 @@ export function Settings() {
       </div>
       <div className={styles["settings"]}>
         <List>
+          {/* 头像功能 */}
           <ListItem title={Locale.Settings.Avatar}>
             <Popover
               onClose={() => setShowEmojiPicker(false)}
@@ -427,7 +431,8 @@ export function Settings() {
               </div>
             </Popover>
           </ListItem>
-
+          
+          {/* 当前版本功能 */}
           <ListItem
             title={Locale.Settings.Update.Version(currentVersion ?? "unknown")}
             subTitle={
@@ -452,7 +457,8 @@ export function Settings() {
               />
             )}
           </ListItem>
-
+          
+          {/* 发送键选择功能 */}
           <ListItem title={Locale.Settings.SendKey}>
             <Select
               value={config.submitKey}
@@ -471,6 +477,7 @@ export function Settings() {
             </Select>
           </ListItem>
 
+          {/* 主题功能 */}
           <ListItem title={Locale.Settings.Theme}>
             <Select
               value={config.theme}
@@ -488,6 +495,7 @@ export function Settings() {
             </Select>
           </ListItem>
 
+          {/* 语言功能 */}
           <ListItem title={Locale.Settings.Lang.Name}>
             <Select
               value={getLang()}
@@ -503,6 +511,7 @@ export function Settings() {
             </Select>
           </ListItem>
 
+          {/* 字体大小功能 */}
           <ListItem
             title={Locale.Settings.FontSize.Title}
             subTitle={Locale.Settings.FontSize.SubTitle}
@@ -521,7 +530,8 @@ export function Settings() {
               }
             ></InputRange>
           </ListItem>
-
+          
+          {/* 自动生成标题功能 */}
           <ListItem
             title={Locale.Settings.AutoGenerateTitle.Title}
             subTitle={Locale.Settings.AutoGenerateTitle.SubTitle}
@@ -538,6 +548,7 @@ export function Settings() {
             ></input>
           </ListItem>
 
+          {/* 预览气泡功能 */}
           <ListItem
             title={Locale.Settings.SendPreviewBubble.Title}
             subTitle={Locale.Settings.SendPreviewBubble.SubTitle}
@@ -555,97 +566,31 @@ export function Settings() {
           </ListItem>
         </List>
 
-        <SyncItems />
-
         <List>
-          <ListItem
-            title={Locale.Settings.Mask.Splash.Title}
-            subTitle={Locale.Settings.Mask.Splash.SubTitle}
-          >
-            <input
-              type="checkbox"
-              checked={!config.dontShowMaskSplashScreen}
-              onChange={(e) =>
-                updateConfig(
-                  (config) =>
-                    (config.dontShowMaskSplashScreen =
-                      !e.currentTarget.checked),
-                )
-              }
-            ></input>
-          </ListItem>
-
-          <ListItem
-            title={Locale.Settings.Mask.Builtin.Title}
-            subTitle={Locale.Settings.Mask.Builtin.SubTitle}
-          >
-            <input
-              type="checkbox"
-              checked={config.hideBuiltinMasks}
-              onChange={(e) =>
-                updateConfig(
-                  (config) =>
-                    (config.hideBuiltinMasks = e.currentTarget.checked),
-                )
-              }
-            ></input>
-          </ListItem>
-        </List>
-
-        <List>
-          <ListItem
-            title={Locale.Settings.Prompt.Disable.Title}
-            subTitle={Locale.Settings.Prompt.Disable.SubTitle}
-          >
-            <input
-              type="checkbox"
-              checked={config.disablePromptHint}
-              onChange={(e) =>
-                updateConfig(
-                  (config) =>
-                    (config.disablePromptHint = e.currentTarget.checked),
-                )
-              }
-            ></input>
-          </ListItem>
-
-          <ListItem
-            title={Locale.Settings.Prompt.List}
-            subTitle={Locale.Settings.Prompt.ListCount(
-              builtinCount,
-              customCount,
-            )}
-          >
-            <IconButton
-              icon={<EditIcon />}
-              text={Locale.Settings.Prompt.Edit}
-              onClick={() => setShowPromptModal(true)}
-            />
-          </ListItem>
-        </List>
-
-        <List>
+          {/* 访问密码功能 */}
           {showAccessCode ? (
-            <ListItem
-              title={Locale.Settings.AccessCode.Title}
-              subTitle={Locale.Settings.AccessCode.SubTitle}
-            >
-              <PasswordInput
-                value={accessStore.accessCode}
-                type="text"
-                placeholder={Locale.Settings.AccessCode.Placeholder}
-                onChange={(e) => {
-                  accessStore.updateCode(e.currentTarget.value);
-                }}
-              />
-            </ListItem>
+            // <ListItem
+            //   title={Locale.Settings.AccessCode.Title}
+            //   subTitle={Locale.Settings.AccessCode.SubTitle}
+            // >
+            //   <PasswordInput
+            //     value={accessStore.accessCode}
+            //     type="text"
+            //     placeholder={Locale.Settings.AccessCode.Placeholder}
+            //     onChange={(e) => {
+            //       accessStore.updateCode(e.currentTarget.value);
+            //     }}
+            //   />
+            // </ListItem>
           ) : (
             <></>
           )}
 
+          
           {!accessStore.hideUserApiKey ? (
             <>
-              <ListItem
+              {/* 接口地址功能 */}
+              {/* <ListItem
                 title={Locale.Settings.Endpoint.Title}
                 subTitle={Locale.Settings.Endpoint.SubTitle}
               >
@@ -657,7 +602,9 @@ export function Settings() {
                     accessStore.updateOpenAiUrl(e.currentTarget.value)
                   }
                 ></input>
-              </ListItem>
+              </ListItem> */}
+
+              {/* API key输入框功能 */}
               <ListItem
                 title={Locale.Settings.Token.Title}
                 subTitle={Locale.Settings.Token.SubTitle}
@@ -674,33 +621,37 @@ export function Settings() {
             </>
           ) : null}
 
+
           {!accessStore.hideBalanceQuery ? (
-            <ListItem
-              title={Locale.Settings.Usage.Title}
-              subTitle={
-                showUsage
-                  ? loadingUsage
-                    ? Locale.Settings.Usage.IsChecking
-                    : Locale.Settings.Usage.SubTitle(
-                        usage?.used ?? "[?]",
-                        usage?.subscription ?? "[?]",
-                      )
-                  : Locale.Settings.Usage.NoAccess
-              }
-            >
-              {!showUsage || loadingUsage ? (
-                <div />
-              ) : (
-                <IconButton
-                  icon={<ResetIcon></ResetIcon>}
-                  text={Locale.Settings.Usage.Check}
-                  onClick={() => checkUsage(true)}
-                />
-              )}
-            </ListItem>
+
+            // 余额查询功能
+            // <ListItem
+            //   title={Locale.Settings.Usage.Title}
+            //   subTitle={
+            //     showUsage
+            //       ? loadingUsage
+            //         ? Locale.Settings.Usage.IsChecking
+            //         : Locale.Settings.Usage.SubTitle(
+            //             usage?.used ?? "[?]",
+            //             usage?.subscription ?? "[?]",
+            //           )
+            //       : Locale.Settings.Usage.NoAccess
+            //   }
+            // >
+            //   {!showUsage || loadingUsage ? (
+            //     <div />
+            //   ) : (
+            //     <IconButton
+            //       icon={<ResetIcon></ResetIcon>}
+            //       text={Locale.Settings.Usage.Check}
+            //       onClick={() => checkUsage(true)}
+            //     />
+            //   )}
+            // </ListItem>
           ) : null}
 
-          <ListItem
+          {/* 自定义模型名称功能 */}
+          {/* <ListItem
             title={Locale.Settings.CustomModel.Title}
             subTitle={Locale.Settings.CustomModel.SubTitle}
           >
@@ -714,8 +665,83 @@ export function Settings() {
                 )
               }
             ></input>
+          </ListItem> */}
+        </List>
+
+
+        {/* 数据导出功能 */}
+        <SyncItems />
+
+        <List>
+          {/* 面具启动页功能 */}
+          <ListItem
+            title={Locale.Settings.Mask.Splash.Title}
+            subTitle={Locale.Settings.Mask.Splash.SubTitle}
+          >
+            <input
+              type="checkbox"
+              checked={!config.dontShowMaskSplashScreen}
+              onChange={(e) =>
+                updateConfig(
+                  (config) =>
+                    (config.dontShowMaskSplashScreen =
+                      !e.currentTarget.checked),
+                )
+              }
+            ></input>
+          </ListItem>
+            
+          {/* 隐藏内置面具页功能 */}
+          <ListItem
+            title={Locale.Settings.Mask.Builtin.Title}
+            subTitle={Locale.Settings.Mask.Builtin.SubTitle}
+          >
+            <input
+              type="checkbox"
+              checked={config.hideBuiltinMasks}
+              onChange={(e) =>
+                updateConfig(
+                  (config) =>
+                    (config.hideBuiltinMasks = e.currentTarget.checked),
+                )
+              }
+            ></input>
+          </ListItem>
+         {/* 禁用提示词补全功能 */}
+          <ListItem
+            title={Locale.Settings.Prompt.Disable.Title}
+            subTitle={Locale.Settings.Prompt.Disable.SubTitle}
+          >
+            <input
+              type="checkbox"
+              checked={config.disablePromptHint}
+              onChange={(e) =>
+                updateConfig(
+                  (config) =>
+                    (config.disablePromptHint = e.currentTarget.checked),
+                )
+              }
+            ></input>
+          </ListItem>
+          
+          {/* 自定义提示词列表 */}
+          <ListItem
+            title={Locale.Settings.Prompt.List}
+            subTitle={Locale.Settings.Prompt.ListCount(
+              builtinCount,
+              customCount,
+            )}
+          >
+            <IconButton
+              icon={<EditIcon />}
+              text={Locale.Settings.Prompt.Edit}
+              onClick={() => setShowPromptModal(true)}
+            />
           </ListItem>
         </List>
+
+
+
 
         <List>
           <ModelConfigList
