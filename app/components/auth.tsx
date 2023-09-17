@@ -7,7 +7,7 @@ import { useAccessStore } from "../store";
 import Locale from "../locales";
 
 import BotIcon from "../icons/bot.svg";
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import { getClientConfig } from "../config/client";
 import {
   Input,
@@ -25,6 +25,14 @@ export function AuthPage() {
   const navigate = useNavigate();
   const access = useAccessStore();
   const accessStore = useAccessStore();
+
+  const [showIframe, setShowIframe] = useState(false);
+  const [buttonText, setButtonText] = useState("立即购买");
+
+  const handleBuyNow = () => {
+    setShowIframe(!showIframe);
+    setButtonText(showIframe ? "立即购买" : "隐藏购买页");
+  };
 
   const goHome = () => navigate(Path.Home);
 
@@ -82,10 +90,15 @@ export function AuthPage() {
           onClick={goHome}
         />
         <IconButton text={Locale.Auth.Later} onClick={goHome} />
-        <IconButton text="立即购买" onClick={() => window.open(HELP_URL, '_blank')} />
+        {/* <IconButton text="立即购买" onClick={() => window.open(HELP_URL, '_blank')} /> */}
+        <IconButton text={buttonText} onClick={handleBuyNow} />
       </div>
 
-      <iframe src="https://j.apagpt.com/help" style={{ width: "100vw", height: "100vh" }} />
+      {showIframe && (
+        <iframe src="https://j.apagpt.com/help" style={{ width: "100vw", height: "100vh" }} />
+      )}
+
+      {/* <iframe src="https://j.apagpt.com/help" style={{ width: "100vw", height: "100vh" }} /> */}
     </div>
   );
 }
