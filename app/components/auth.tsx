@@ -21,6 +21,13 @@ import {
   showToast,
 } from "./ui-lib";
 
+
+
+import ReturnIcon from "../icons/return.svg";
+
+
+
+
 export function AuthPage() {
   const navigate = useNavigate();
   const access = useAccessStore();
@@ -45,6 +52,14 @@ export function AuthPage() {
 
   return (
     <div className={styles["auth-page"]}>
+      <div className={"window-action-button"}>
+              <IconButton
+                icon={<ReturnIcon />}
+                bordered
+                title={Locale.Chat.Actions.ChatList}
+                onClick={goHome}
+              />
+            </div>
       <div className={`no-dark ${styles["auth-logo"]}`}>
         <BotIcon />
       </div>
