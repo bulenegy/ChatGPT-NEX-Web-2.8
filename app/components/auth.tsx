@@ -51,7 +51,7 @@ export function AuthPage() {
   }, []);
 
   return (
-    <div>
+    <div className={styles.chat} key={session.id}>
     <div className="window-header" data-tauri-drag-region>
           <div className="window-actions">
             <div className={"window-action-button"}>
