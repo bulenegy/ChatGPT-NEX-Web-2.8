@@ -75,11 +75,8 @@ export function AuthPage() {
           access.updateToken(e.currentTarget.value);
         }}
       />
-
-
-
     </div>
-
+    <div>
       <div className={styles["auth-actions"]}>
         <IconButton
           text={Locale.Auth.Confirm}
