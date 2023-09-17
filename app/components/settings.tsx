@@ -682,7 +682,7 @@ export function Settings() {
 
         <List>
           {/* 面具启动页功能 */}
-          {/* <ListItem
+          <ListItem
             title={Locale.Settings.Mask.Splash.Title}
             subTitle={Locale.Settings.Mask.Splash.SubTitle}
           >
@@ -697,7 +697,7 @@ export function Settings() {
                 )
               }
             ></input>
-          </ListItem> */}
+          </ListItem>
             
           {/* 隐藏内置面具页功能 */}
           <ListItem
