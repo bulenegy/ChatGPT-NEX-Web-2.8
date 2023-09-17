@@ -25,6 +25,7 @@ import {
 export function AuthPage() {
   const navigate = useNavigate();
   const access = useAccessStore();
+  const accessStore = useAccessStore();
 
   const goHome = () => navigate(Path.Home);
 
@@ -57,7 +58,7 @@ export function AuthPage() {
         className={styles["auth-input"]}
         type="password"
         placeholder={Locale.Auth.Input}
-        value={access.Token}
+        value={accessStore.token}
         onChange={(e) => {
           access.updateToken(e.currentTarget.value);
         }}
