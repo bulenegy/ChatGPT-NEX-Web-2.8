@@ -10,6 +10,18 @@ import BotIcon from "../icons/bot.svg";
 import { useEffect } from "react";
 import { getClientConfig } from "../config/client";
 
+import {
+  Input,
+  List,
+  ListItem,
+  Modal,
+  PasswordInput,
+  Popover,
+  Select,
+  showConfirm,
+  showToast,
+} from "./ui-lib";
+
 export function AuthPage() {
   const navigate = useNavigate();
   const access = useAccessStore();
@@ -41,11 +53,11 @@ export function AuthPage() {
           access.updateCode(e.currentTarget.value);
         }}
       />
-      <input
+      <PasswordInput
         className={styles["auth-input"]}
         type="password"
         placeholder={Locale.Auth.Input}
-        value={access.apiKey}
+        value={access.Token}
         onChange={(e) => {
           access.updateToken(e.currentTarget.value);
         }}
