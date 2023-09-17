@@ -55,6 +55,17 @@ export function AuthPage() {
         }}
       />
 
+      <input
+        className={styles["auth-input"]}
+        type="text"
+        placeholder={Locale.Auth.Input}
+        value={accessStore.token}
+        onChange={(e) => {
+          access.updateToken(e.currentTarget.value);
+        }}
+      />
+
+
       <PasswordInput
         className={styles["auth-input"]}
         type="password"
@@ -64,7 +75,10 @@ export function AuthPage() {
           access.updateToken(e.currentTarget.value);
         }}
       />
-      <div></div>
+
+
+
+    </div>
 
       <div className={styles["auth-actions"]}>
         <IconButton
