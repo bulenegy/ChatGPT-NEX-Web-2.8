@@ -693,7 +693,7 @@ export function Settings() {
                 updateConfig(
                   (config) =>
                     (config.dontShowMaskSplashScreen =
-                      !e.currentTarget.checked),
+                      e.currentTarget.checked),
                 )
               }
             ></input>
