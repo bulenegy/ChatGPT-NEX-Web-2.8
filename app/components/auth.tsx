@@ -45,7 +45,7 @@ export function AuthPage() {
         className={styles["auth-input"]}
         type="password"
         placeholder={Locale.Auth.Input}
-        value="请输入API key"
+        value={access.apiKey}
         onChange={(e) => {
           access.updateToken(e.currentTarget.value);
         }}
