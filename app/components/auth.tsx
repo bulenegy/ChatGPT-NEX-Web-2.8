@@ -2,14 +2,13 @@ import styles from "./auth.module.scss";
 import { IconButton } from "./button";
 
 import { useNavigate } from "react-router-dom";
-import { Path } from "../constant";
+import { Path,HELP_URL } from "../constant";
 import { useAccessStore } from "../store";
 import Locale from "../locales";
 
 import BotIcon from "../icons/bot.svg";
 import { useEffect } from "react";
 import { getClientConfig } from "../config/client";
-
 import {
   Input,
   List,
@@ -45,7 +44,7 @@ export function AuthPage() {
       <div className={styles["auth-title"]}>{Locale.Auth.Title}</div>
       <div className={styles["auth-tips"]}>{Locale.Auth.Tips}</div>
 
-      <input
+      {/* <input
         className={styles["auth-input"]}
         type="password"
         placeholder={Locale.Auth.Input}
@@ -53,7 +52,7 @@ export function AuthPage() {
         onChange={(e) => {
           access.updateCode(e.currentTarget.value);
         }}
-      />
+      /> */}
 
       <input
         className={styles["auth-input"]}
@@ -66,7 +65,7 @@ export function AuthPage() {
       />
 
 
-      <PasswordInput
+      {/* <PasswordInput
         className={styles["auth-input"]}
         type="password"
         placeholder={Locale.Auth.Input}
@@ -74,7 +73,7 @@ export function AuthPage() {
         onChange={(e) => {
           access.updateToken(e.currentTarget.value);
         }}
-      />
+      /> */}
     
       <div className={styles["auth-actions"]}>
         <IconButton
@@ -83,6 +82,7 @@ export function AuthPage() {
           onClick={goHome}
         />
         <IconButton text={Locale.Auth.Later} onClick={goHome} />
+        <IconButton text={Locale.Auth.Help} onClick={() => window.open(HELP_URL, '_blank')} />
       </div>
     </div>
   );

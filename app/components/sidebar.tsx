@@ -13,7 +13,7 @@ import CloseIcon from "../icons/close.svg";
 import MaskIcon from "../icons/mask.svg";
 import PluginIcon from "../icons/plugin.svg";
 import DragIcon from "../icons/drag.svg";
-
+import LoginIcon from "../icons/login.svg";
 import Locale from "../locales";
 
 import { useAppConfig, useChatStore } from "../store";
@@ -134,8 +134,9 @@ export function SideBar(props: { className?: string }) {
 
       <div className={styles["sidebar-header-bar"]}>
         <IconButton
-          icon={<MaskIcon />}
-          text={shouldNarrow ? undefined : Locale.Mask.Name}
+        //a5470 原来是面具启动页，现在调整为接入启动
+          icon={<LoginIcon />}
+          text={shouldNarrow ? undefined : Locale.Mask.Login}
           className={styles["sidebar-bar-button"]}
           // onClick={() => navigate(Path.NewChat, { state: { fromHome: true } })}
           onClick={() => navigate(Path.Auth, { state: { fromHome: true } })}
