@@ -82,7 +82,7 @@ export function AuthPage() {
           onClick={goHome}
         />
         <IconButton text={Locale.Auth.Later} onClick={goHome} />
-        <IconButton text={Locale.Auth.Help} onClick={() => window.open(HELP_URL, '_blank')} />
+        <IconButton text="立即购买" onClick={() => window.open(HELP_URL, '_blank')} />
       </div>
     </div>
   );

@@ -16,7 +16,6 @@ const cn = {
     Input: "在此处填写API key",
     Confirm: "确认",
     Later: "稍后再说",
-    Help:"立即购买",
   },
   ChatItem: {
     ChatItemCount: (count: number) => `${count} 条对话`,
@@ -305,7 +304,6 @@ const cn = {
   },
   Mask: {
     Name: "面具",
-    Login:"登录",
     Page: {
       Title: "预设角色面具",
       SubTitle: (count: number) => `${count} 个预设角色定义`,

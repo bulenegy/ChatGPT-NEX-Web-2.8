@@ -136,7 +136,7 @@ export function SideBar(props: { className?: string }) {
         <IconButton
         //a5470 原来是面具启动页，现在调整为接入启动
           icon={<LoginIcon />}
-          text={shouldNarrow ? undefined : Locale.Mask.Login}
+          text="登录"
           className={styles["sidebar-bar-button"]}
           // onClick={() => navigate(Path.NewChat, { state: { fromHome: true } })}
           onClick={() => navigate(Path.Auth, { state: { fromHome: true } })}
