@@ -51,15 +51,20 @@ export function AuthPage() {
   }, []);
 
   return (
-    <div className={styles["auth-page"]}>
-      <div className={"window-action-button"}>
+    <div className="window-header" data-tauri-drag-region>
+          <div className="window-actions">
+            <div className={"window-action-button"}>
               <IconButton
                 icon={<ReturnIcon />}
                 bordered
                 title={Locale.Chat.Actions.ChatList}
-                onClick={goHome}
+                onClick={() => navigate(Path.Home)}
               />
             </div>
+          </div>
+    </div>
+    <div className={styles["auth-page"]}>
+      
       <div className={`no-dark ${styles["auth-logo"]}`}>
         <BotIcon />
       </div>
