@@ -41,6 +41,16 @@ export function AuthPage() {
           access.updateCode(e.currentTarget.value);
         }}
       />
+      <input
+        className={styles["auth-input"]}
+        type="text"
+        placeholder={Locale.Auth.Input}
+        value="请输入API key"
+        onChange={(e) => {
+          access.updateToken(e.currentTarget.value);
+        }}
+      />
+
 
       <div className={styles["auth-actions"]}>
         <IconButton
