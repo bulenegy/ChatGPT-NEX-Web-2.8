@@ -688,12 +688,12 @@ export function Settings() {
           >
             <input
               type="checkbox"
-              checked={!config.dontShowMaskSplashScreen}
+              checked={config.dontShowMaskSplashScreen}
               onChange={(e) =>
                 updateConfig(
                   (config) =>
                     (config.dontShowMaskSplashScreen =
-                      e.currentTarget.checked),
+                      !e.currentTarget.checked),
                 )
               }
             ></input>
