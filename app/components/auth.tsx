@@ -43,7 +43,7 @@ export function AuthPage() {
       />
       <input
         className={styles["auth-input"]}
-        type="text"
+        type="password"
         placeholder={Locale.Auth.Input}
         value="请输入API key"
         onChange={(e) => {
