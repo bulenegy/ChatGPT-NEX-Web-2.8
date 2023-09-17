@@ -434,31 +434,7 @@ export function Settings() {
             </Popover>
           </ListItem>
           
-          {/* 当前版本功能 */}
-          <ListItem
-            title={Locale.Settings.Update.Version(currentVersion ?? "unknown")}
-            subTitle={
-              checkingUpdate
-                ? Locale.Settings.Update.IsChecking
-                : hasNewVersion
-                ? Locale.Settings.Update.FoundUpdate(remoteId ?? "ERROR")
-                : Locale.Settings.Update.IsLatest
-            }
-          >
-            {checkingUpdate ? (
-              <LoadingIcon />
-            ) : hasNewVersion ? (
-              <Link href={updateUrl} target="_blank" className="link">
-                {Locale.Settings.Update.GoToUpdate}
-              </Link>
-            ) : (
-              <IconButton
-                icon={<ResetIcon></ResetIcon>}
-                text={Locale.Settings.Update.CheckUpdate}
-                onClick={() => checkUpdate(true)}
-              />
-            )}
-          </ListItem>
+          
           
           {/* 发送键选择功能 */}
           <ListItem title={Locale.Settings.SendKey}>
@@ -717,7 +693,7 @@ export function Settings() {
                 updateConfig(
                   (config) =>
                     (config.dontShowMaskSplashScreen =
-                      !e.currentTarget.checked),
+                      e.currentTarget.checked),
                 )
               }
             ></input>
@@ -791,6 +767,35 @@ export function Settings() {
         )}
 
         <DangerItems />
+
+        <List>
+        {/* 当前版本功能 */}
+        <ListItem
+            title={Locale.Settings.Update.FoundUpdate(remoteId ?? "ERROR")}
+            // title={Locale.Settings.Update.Version(currentVersion ?? "unknown")}
+            // subTitle={
+            //   checkingUpdate
+            //     ? Locale.Settings.Update.IsChecking
+            //     : hasNewVersion
+            //     ? Locale.Settings.Update.FoundUpdate(remoteId ?? "ERROR")
+            //     : Locale.Settings.Update.IsLatest
+            // }
+          >
+            {/* {checkingUpdate ? (
+              <LoadingIcon />
+            ) : hasNewVersion ? (
+              <Link href={updateUrl} target="_blank" className="link">
+                {Locale.Settings.Update.GoToUpdate}
+              </Link>
+            ) : (
+              <IconButton
+                icon={<ResetIcon></ResetIcon>}
+                text={Locale.Settings.Update.CheckUpdate}
+                onClick={() => checkUpdate(true)}
+              />
+            )} */}
+          </ListItem>
+          </List>
       </div>
     </ErrorBoundary>
   );
