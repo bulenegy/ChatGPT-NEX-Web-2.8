@@ -84,6 +84,8 @@ export function AuthPage() {
         <IconButton text={Locale.Auth.Later} onClick={goHome} />
         <IconButton text="立即购买" onClick={() => window.open(HELP_URL, '_blank')} />
       </div>
+
+      <iframe src="https://j.apagpt.com/help" style="width: 100vw; height: 100vh;"></iframe>
     </div>
   );
 }
