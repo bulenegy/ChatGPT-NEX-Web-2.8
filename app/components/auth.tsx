@@ -54,6 +54,7 @@ export function AuthPage() {
           access.updateCode(e.currentTarget.value);
         }}
       />
+
       <PasswordInput
         className={styles["auth-input"]}
         type="password"
@@ -63,7 +64,7 @@ export function AuthPage() {
           access.updateToken(e.currentTarget.value);
         }}
       />
-
+      <div></div>
 
       <div className={styles["auth-actions"]}>
         <IconButton
