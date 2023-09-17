@@ -51,6 +51,7 @@ export function AuthPage() {
   }, []);
 
   return (
+    <div>
     <div className="window-header" data-tauri-drag-region>
           <div className="window-actions">
             <div className={"window-action-button"}>
@@ -119,6 +120,7 @@ export function AuthPage() {
       )}
 
       {/* <iframe src="https://j.apagpt.com/help" style={{ width: "100vw", height: "100vh" }} /> */}
+    </div>
     </div>
   );
 }
