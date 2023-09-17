@@ -7,15 +7,15 @@ const cn = {
   WIP: "该功能仍在开发中……",
   Error: {
     Unauthorized: isApp
-      ? "检测到无效 API Key，请前往[设置](/#/settings)页检查 API Key 是否配置正确。"
-      : "访问密码不正确或为空，请前往[登录](/#/auth)页输入正确的访问密码，或者在[设置](/#/settings)页填入你自己的 OpenAI API Key。",
+      ? "检测到无效 API Key，请前往[登录](/#/auth)页检查 API Key 是否配置正确。如需帮助请点击http://j.apagpt.com/help"
+      : "您尚未输入API key或API key已过期，请前往[登录](/#/auth)页输入正确的API key，或者点击此链接购买http://j.apagpt.com/help",
   },
   Auth: {
     Title: "需要API key才能使用",
     Tips: "请在下方填入您的API key，如果没有可点击下方立即购买",
     Input: "在此处填写API key",
     Confirm: "确认",
-    Later: "稍后再说",
+    Later: "返回",
   },
   ChatItem: {
     ChatItemCount: (count: number) => `${count} 条对话`,
