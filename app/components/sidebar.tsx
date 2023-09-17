@@ -193,19 +193,21 @@ export function SideBar(props: { className?: string }) {
           <IconButton
             icon={<AddIcon />}
             text={shouldNarrow ? undefined : Locale.Home.NewChat}
-            onClick={() => {
+            // onClick={() => {
 
-              //a5470 此处修改是取消新建聊天启动面具，步骤一
-              if (config.dontShowMaskSplashScreen) {
-                // chatStore.newSession();
-                // navigate(Path.Chat);
-                navigate(Path.NewChat);
-              } else {
-                // navigate(Path.NewChat);
-                chatStore.newSession();
-                navigate(Path.Chat);
-              }
-            }}
+            //   //a5470 此处修改是取消新建聊天启动面具，步骤一
+            //   if (config.dontShowMaskSplashScreen) {
+            //     // chatStore.newSession();
+            //     // navigate(Path.Chat);
+            //     navigate(Path.NewChat);
+            //   } else {
+            //     // navigate(Path.NewChat);
+            //     chatStore.newSession();
+            //     navigate(Path.Chat);
+            //   }
+            // }}
+            //直接取消面具启动功能
+            onClick={() => {navigate(Path.Chat)}}
             shadow
           />
         </div>
