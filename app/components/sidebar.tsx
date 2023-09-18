@@ -209,7 +209,7 @@ export function SideBar(props: { className?: string }) {
 
             //直接取消面具启动功能
             onClick={() => {chatStore.newSession();
-                            navigate(Path.NewChat)}}
+                            navigate(Path.Chat)}}
             shadow
           />
         </div>
