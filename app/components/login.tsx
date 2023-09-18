@@ -101,9 +101,5 @@ export function LoginPage() {
         {/* <iframe src="https://j.apagpt.com/help" style={{ width: "100vw", height: "100vh" }} /> */}
       </div>
     </div>
-
-        {/* </div>
-        </div>
-      </div> */}
   );
 }
