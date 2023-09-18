@@ -1,7 +1,7 @@
 import { IconButton } from "./button";
 import { ErrorBoundary } from "./error";
 import styles from "./login.scss";
-import "./login.scss";
+import styles2 from "./auth.module.scss";
 import CloseIcon from "../icons/close.svg";
 import { useNavigate } from "react-router-dom";
 import { FileName, Path } from "../constant";
@@ -65,29 +65,20 @@ export function LoginPage() {
             </div>
           </div>
         </div>
-        <div className={styles["auth-page"]}>
+        <div className={styles2["auth-page"]}>
         <div style={{ padding: '1rem', overflow: 'scroll' }}>
           <div className="LoginConten">
-          <div className={styles["auth-page"]}>
-            <div className={`no-dark ${styles["auth-logo"]}`}>
+          <div className={styles2["auth-page"]}>
+            <div className={`no-dark ${styles2["auth-logo"]}`}>
                 <BotIcon />
             </div>
 
-            <div className={styles["auth-title"]}>{Locale.Auth.Title}</div>
-            <div className={styles["auth-tips"]}>{Locale.Auth.Tips}</div>
+            <div className={styles2["auth-title"]}>{Locale.Auth.Title}</div>
+            <div className={styles2["auth-tips"]}>{Locale.Auth.Tips}</div>
 
-            {/* <input
-                className={styles["auth-input"]}
-                type="password"
-                placeholder={Locale.Auth.Input}
-                value={access.accessCode}
-                onChange={(e) => {
-                access.updateCode(e.currentTarget.value);
-                }}
-            /> */}
 
             <input
-                className={styles["auth-input"]}
+                className={styles2["auth-input"]}
                 type="text"
                 placeholder={Locale.Auth.Input}
                 value={accessStore.token}
@@ -95,19 +86,8 @@ export function LoginPage() {
                 access.updateToken(e.currentTarget.value);
                 }}
             />
-
-
-            {/* <PasswordInput
-                className={styles["auth-input"]}
-                type="password"
-                placeholder={Locale.Auth.Input}
-                value={accessStore.token}
-                onChange={(e) => {
-                access.updateToken(e.currentTarget.value);
-                }}
-            /> */}
             
-            <div className={styles["auth-actions"]}>
+            <div className={styles2["auth-actions"]}>
                 <IconButton
                 text={Locale.Auth.Confirm}
                 type="primary"
