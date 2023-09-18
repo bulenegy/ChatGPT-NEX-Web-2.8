@@ -1,6 +1,6 @@
 import styles from "./auth.module.scss";
 import { IconButton } from "./button";
-
+import CloseIcon from "../icons/close.svg";
 import { useNavigate } from "react-router-dom";
 import { Path,HELP_URL } from "../constant";
 import { useAccessStore } from "../store";
@@ -9,6 +9,7 @@ import Locale from "../locales";
 import BotIcon from "../icons/bot.svg";
 import { useEffect,useState } from "react";
 import { getClientConfig } from "../config/client";
+import { ErrorBoundary } from "./error";
 import {
   Input,
   List,
@@ -51,19 +52,29 @@ export function AuthPage() {
   }, []);
 
   return (
-    <div className={styles.chat}>
+    <ErrorBoundary>
+    
     <div className="window-header" data-tauri-drag-region>
-          <div className="window-actions">
-            <div className={"window-action-button"}>
-              <IconButton
-                icon={<ReturnIcon />}
-                bordered
-                title={Locale.Chat.Actions.ChatList}
-                onClick={() => navigate(Path.Home)}
-              />
-            </div>
+        <div className="window-header-title">
+          <div className="window-header-main-title">
+            {Locale.Settings.Title}
           </div>
-    </div>
+          <div className="window-header-sub-title">
+            {Locale.Settings.SubTitle}
+          </div>
+        </div>
+        <div className="window-actions">
+          <div className="window-action-button"></div>
+          <div className="window-action-button"></div>
+          <div className="window-action-button">
+            <IconButton
+              icon={<CloseIcon />}
+              onClick={() => navigate(Path.Home)}
+              bordered
+            />
+          </div>
+        </div>
+      </div>
     <div className={styles["auth-page"]}>
       
       <div className={`no-dark ${styles["auth-logo"]}`}>
@@ -121,6 +132,7 @@ export function AuthPage() {
 
       {/* <iframe src="https://j.apagpt.com/help" style={{ width: "100vw", height: "100vh" }} /> */}
     </div>
-    </div>
+    
+    </ErrorBoundary>
   );
 }
