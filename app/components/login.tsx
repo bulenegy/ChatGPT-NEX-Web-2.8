@@ -6,7 +6,7 @@ import CloseIcon from "../icons/close.svg";
 import { useNavigate } from "react-router-dom";
 import { FileName, Path } from "../constant";
 import React, { useState, useEffect } from 'react';
-// import articleList from './article';
+
 
 
 
@@ -65,9 +65,9 @@ export function LoginPage() {
             </div>
           </div>
         </div>
-        <div className={styles2["auth-page"]}>
+        {/* <div className={styles2["auth-page"]}>
         <div style={{ padding: '1rem', overflow: 'scroll' }}>
-          <div className="LoginConten">
+          <div className="LoginConten"> */}
           <div className={styles2["auth-page"]}>
             <div className={`no-dark ${styles2["auth-logo"]}`}>
                 <BotIcon />
@@ -93,7 +93,8 @@ export function LoginPage() {
                 type="primary"
                 onClick={goHome}
                 />
-                <IconButton text={Locale.Auth.Later} onClick={goHome} />
+                {/* 返回按钮 */}
+                {/* <IconButton text={Locale.Auth.Later} onClick={goHome} /> */}   
                 {/* <IconButton text="立即购买" onClick={() => window.open(HELP_URL, '_blank')} /> */}
                 <IconButton text={buttonText} onClick={handleBuyNow} />
             </div>
@@ -106,9 +107,9 @@ export function LoginPage() {
             </div>
           </div>
 
+        {/* </div>
         </div>
-        </div>
-      </div>
+      </div> */}
     </ErrorBoundary>
   );
 }
