@@ -22,7 +22,7 @@ export function WebPage() {
   }, []);
 
   // 获取地址参数
-  const { url } = useParams();
+  const { url,main_title,submai_title } = useParams();
 //   const urlParams = new URLSearchParams(window.location.search);
 //   const webUrl = urlParams.get('url');
   return (
@@ -32,10 +32,12 @@ export function WebPage() {
           <div className="window-header-main-title">
             {/* 登录 */}
             {/* {Locale.Mask.Page.Title} */}
+            {decodeURIComponent(main_title || "")}
           </div>
           <div className="window-header-submai-title">
             {/* 开始使用ChatGPT */}
             {/* {Locale.Mask.Page.SubTitle(allMasks.length)} */}
+            {decodeURIComponent(submai_title || "")}
           </div>
         </div>
         <div className="window-actions">
