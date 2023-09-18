@@ -1,14 +1,10 @@
 import { IconButton } from "./button";
-import { ErrorBoundary } from "./error";
 import styles from "./login.scss";
 import styles2 from "./auth.module.scss";
 import CloseIcon from "../icons/close.svg";
 import { useNavigate } from "react-router-dom";
-import { FileName, Path } from "../constant";
+import { Path } from "../constant";
 import React, { useState, useEffect } from 'react';
-
-
-
 
 import Locale from "../locales";
 
@@ -22,13 +18,17 @@ export function LoginPage() {
   const navigate = useNavigate();
   const access = useAccessStore();
   const accessStore = useAccessStore();
-
-
-
   const [buttonText] = useState("立即购买");
-
-
   const goHome = () => navigate(Path.Home);
+
+  //网页传递地址参数功能
+  const [webUrl, setWebUrl] = useState(""); // 添加一个状态来保存地址参数
+  // 新增的处理函数，用于设置地址参数并导航到 web.tsx
+  const handleOpenWeb = (url) => {
+    setWebUrl(url);
+    navigate(Path.Web);
+  };
+  //结束
 
   useEffect(() => {
     if (getClientConfig()?.isApp) {
@@ -87,7 +87,8 @@ export function LoginPage() {
           {/* 返回按钮 */}
           {/* <IconButton text={Locale.Auth.Later} onClick={goHome} /> */}
           {/* <IconButton text="立即购买" onClick={() => window.open(HELP_URL, '_blank')} /> */}
-          <IconButton text={buttonText} onClick={() => navigate(Path.Web)} />
+          <IconButton text={buttonText} onClick={() => handleOpenWeb('https://j.apagpt.com/help')} />
+        {/* 你可以将上述的 'https://www.baidu.com' 替换为你想要的地址参数 */}
         </div>
 
 

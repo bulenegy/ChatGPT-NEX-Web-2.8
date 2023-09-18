@@ -4,34 +4,13 @@ import styles from "./login.scss";
 import styles2 from "./auth.module.scss";
 import CloseIcon from "../icons/close.svg";
 import { useNavigate } from "react-router-dom";
-import { FileName, Path } from "../constant";
-import React, { useState, useEffect } from 'react';
+import {  Path } from "../constant";
+import React, { useEffect } from 'react';
 
-
-
-
-import Locale from "../locales";
-
-import BotIcon from "../icons/bot.svg";
-import { useAccessStore } from "../store";
 import { getClientConfig } from "../config/client";
-
-
 
 export function WebPage() {
   const navigate = useNavigate();
-  const access = useAccessStore();
-  const accessStore = useAccessStore();
-
-
-  const [showIframe, setShowIframe] = useState(false);
-  const [buttonText, setButtonText] = useState("立即购买");
-
-  const handleBuyNow = () => {
-    setShowIframe(!showIframe);
-    setButtonText(showIframe ? "立即购买" : "隐藏购买页");
-  };
-
   const goHome = () => navigate(Path.Home);
 
   useEffect(() => {
@@ -40,6 +19,10 @@ export function WebPage() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // 获取地址参数
+  const urlParams = new URLSearchParams(window.location.search);
+  const webUrl = urlParams.get('url');
   return (
     <div style={{ height: "100%" }}>
       <div className="window-header">
@@ -58,13 +41,13 @@ export function WebPage() {
             <IconButton
               icon={<CloseIcon />}
               bordered
-              onClick={() => navigate(Path.Home)}
+              onClick={() => navigate(-1)}
             />
           </div>
         </div>
 
       </div>
-      <iframe src="https://j.apagpt.com/help" style={{ width: "100%", height: "calc(100% - 80px)" }} />
+      <iframe src={webUrl} style={{ width: "100%", height: "calc(100% - 80px)" }} />
     </div>
   );
 }
