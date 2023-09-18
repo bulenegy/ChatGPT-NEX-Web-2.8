@@ -63,11 +63,7 @@ export function LoginPage() {
           </div>
         </div>
       </div>
-
-
-        {showIframe && (
           <iframe src="https://j.apagpt.com/help" style={{ width: "100%", height: "100%" }} />
-        )}
     </div>
   );
 }
