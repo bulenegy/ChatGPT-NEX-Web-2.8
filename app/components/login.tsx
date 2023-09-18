@@ -41,7 +41,8 @@ export function LoginPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div className="window-header">
+    <div>
+      <div className="window-header">
         <div className="window-header-title">
           <div className="window-header-main-title">
             登录
@@ -61,9 +62,9 @@ export function LoginPage() {
             />
           </div>
         </div>
-        <iframe src="https://j.apagpt.com/help" style={{ width: "100%", height: "100%" }} />
-    </div>
-    
 
+      </div>
+      <iframe src="https://j.apagpt.com/help" style={{ width: "100%", height: "100%" }} />
+    </div>
   );
 }
