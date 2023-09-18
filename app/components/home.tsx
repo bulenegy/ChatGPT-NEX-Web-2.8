@@ -29,6 +29,7 @@ import { AuthPage } from "./auth";
 import { getClientConfig } from "../config/client";
 import { api } from "../client/api";
 import { useAccessStore } from "../store";
+import { LoginPage } from "./login";
 
 export function Loading(props: { noLogo?: boolean }) {
   return (
@@ -156,6 +157,9 @@ function Screen() {
               <Route path={Path.Masks} element={<MaskPage />} />
               <Route path={Path.Chat} element={<Chat />} />
               <Route path={Path.Settings} element={<Settings />} />
+
+              {/* a5470 新增页面*/}
+              <Route path={Path.Login} element={<LoginPage />} />
             </Routes>
           </div>
         </>

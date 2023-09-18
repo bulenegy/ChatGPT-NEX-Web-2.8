@@ -139,7 +139,9 @@ export function SideBar(props: { className?: string }) {
           text="登录"
           className={styles["sidebar-bar-button"]}
           // onClick={() => navigate(Path.NewChat, { state: { fromHome: true } })}
-          onClick={() => navigate(Path.Auth, { state: { fromHome: true } })}
+          // onClick={() => navigate(Path.Auth, { state: { fromHome: true } })}
+
+          onClick={() => navigate(Path.Login  , { state: { fromHome: true } }) }
           shadow
         />
         <IconButton

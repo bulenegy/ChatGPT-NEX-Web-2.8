@@ -1,0 +1,151 @@
+@import "../styles/animation.scss";
+.mask-page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .mask-page-body {
+    padding: 20px;
+    overflow-y: auto;
+
+    .mask-filter {
+      width: 100%;
+      max-width: 100%;
+      margin-bottom: 20px;
+      animation: slide-in ease 0.3s;
+      height: 40px;
+
+      display: flex;
+
+      .search-bar {
+        flex-grow: 1;
+        max-width: 100%;
+        min-width: 0;
+      }
+
+      .mask-filter-lang {
+        height: 100%;
+        margin-left: 10px;
+      }
+
+      .mask-create {
+        height: 100%;
+        margin-left: 10px;
+        box-sizing: border-box;
+        min-width: 80px;
+      }
+    }
+
+    .mask-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px;
+      border: var(--border-in-light);
+      animation: slide-in ease 0.3s;
+
+      &:not(:last-child) {
+        border-bottom: 0;
+      }
+
+      &:first-child {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+      }
+
+      &:last-child {
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+      }
+
+      .mask-header {
+        display: flex;
+        align-items: center;
+
+        .mask-icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-right: 10px;
+        }
+
+        .mask-title {
+          .mask-name {
+            font-size: 14px;
+            font-weight: bold;
+          }
+          .mask-info {
+            font-size: 12px;
+          }
+        }
+      }
+
+      .mask-actions {
+        display: flex;
+        flex-wrap: nowrap;
+        transition: all ease 0.3s;
+      }
+
+      @media screen and (max-width: 600px) {
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 10px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        box-shadow: var(--card-shadow);
+
+        &:not(:last-child) {
+          border-bottom: var(--border-in-light);
+        }
+
+        .mask-actions {
+          width: 100%;
+          justify-content: space-between;
+          padding-top: 10px;
+        }
+      }
+    }
+  }
+}
+
+
+.LoginConten {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+
+  overflow: auto; /* auto 表示仅在内容超出元素大小时显示滚动条，scroll 表示始终显示滚动条 */
+}
+
+.article {
+  border: solid 1px rgb(225, 220, 220);
+  max-width: 30%;
+  border-radius: 10px;
+  margin: 5px;
+  // background-color: #ffffff;
+  .article-title {
+    font-size: 20px;
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+    &:hover {
+      color: #1f60ff;
+    }
+  }
+  .article-text {
+    margin-top: 10px;
+    
+  }
+  img {
+    max-width: 100%;
+    border-radius: 10px 10px 0px 0px;
+
+    height: auto;
+  }
+  @media screen and (max-width: 600px) {
+    max-width: 100%;
+}
+}
+
+
+
+
