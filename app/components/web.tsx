@@ -44,6 +44,8 @@ export function WebPage() {
               bordered
               onClick={() => navigate(-1)}
             />
+          </div>
+          <div className="window-action-button">
             <IconButton
               icon={<CloseIcon />}
               bordered
