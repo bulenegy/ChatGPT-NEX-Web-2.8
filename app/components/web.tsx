@@ -18,15 +18,19 @@ import { getClientConfig } from "../config/client";
 
 
 
-export function LoginPage() {
+export function WebPage() {
   const navigate = useNavigate();
   const access = useAccessStore();
   const accessStore = useAccessStore();
 
 
+  const [showIframe, setShowIframe] = useState(false);
+  const [buttonText, setButtonText] = useState("立即购买");
 
-  const [buttonText] = useState("立即购买");
-
+  const handleBuyNow = () => {
+    setShowIframe(!showIframe);
+    setButtonText(showIframe ? "立即购买" : "隐藏购买页");
+  };
 
   const goHome = () => navigate(Path.Home);
 
@@ -58,40 +62,9 @@ export function LoginPage() {
             />
           </div>
         </div>
-      </div>
-      <div className={styles2["auth-page"]}>
-        <div className={`no-dark ${styles2["auth-logo"]}`}>
-          <BotIcon />
-        </div>
-
-        <div className={styles2["auth-title"]}>{Locale.Auth.Title}</div>
-        <div className={styles2["auth-tips"]}>{Locale.Auth.Tips}</div>
-
-
-        <input
-          className={styles2["auth-input"]}
-          type="text"
-          placeholder={Locale.Auth.Input}
-          value={accessStore.token}
-          onChange={(e) => {
-            access.updateToken(e.currentTarget.value);
-          }}
-        />
-
-        <div className={styles2["auth-actions"]}>
-          <IconButton
-            text={Locale.Auth.Confirm}
-            type="primary"
-            onClick={goHome}
-          />
-          {/* 返回按钮 */}
-          {/* <IconButton text={Locale.Auth.Later} onClick={goHome} /> */}
-          {/* <IconButton text="立即购买" onClick={() => window.open(HELP_URL, '_blank')} /> */}
-          <IconButton text={buttonText} onClick={() => navigate(Path.Web)} />
-        </div>
-
 
       </div>
+      <iframe src="https://j.apagpt.com/help" style={{ width: "100%", height: "calc(100% - 80px)" }} />
     </div>
   );
 }

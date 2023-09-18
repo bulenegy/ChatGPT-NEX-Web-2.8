@@ -30,6 +30,7 @@ import { getClientConfig } from "../config/client";
 import { api } from "../client/api";
 import { useAccessStore } from "../store";
 import { LoginPage } from "./login";
+import { WebPage } from "./web";
 
 export function Loading(props: { noLogo?: boolean }) {
   return (
@@ -160,6 +161,7 @@ function Screen() {
 
               {/* a5470 新增页面*/}
               <Route path={Path.Login} element={<LoginPage />} />
+              <Route path={Path.Web} element={<WebPage />} />
             </Routes>
           </div>
         </>

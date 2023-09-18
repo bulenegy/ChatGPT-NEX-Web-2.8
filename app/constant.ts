@@ -21,6 +21,7 @@ export enum Path {
   Masks = "/masks",
   Auth = "/auth",
   Login = "/login",//新增页面
+  Web = "/web",//新增页面
 }
 
 export enum SlotID {
