@@ -47,7 +47,7 @@ export function WebPage() {
         </div>
 
       </div>
-      <iframe src={webUrl} style={{ width: "100%", height: "calc(100% - 80px)" }} />
+      <iframe src={webUrl || ""} style={{ width: "100%", height: "calc(100% - 80px)" }} />
     </div>
   );
 }
