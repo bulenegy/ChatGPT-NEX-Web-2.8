@@ -160,7 +160,7 @@ export function SideBar(props: { className?: string }) {
           // onClick={() => showToast(Locale.WIP)}
           // onClick={() => window.open(LEARN_URL, '_blank')} 
           // onClick={() => window.open(CONTACT_URL, '_blank')} 
-          onClick={() => handleOpenWeb(CONTACT_URL, '联系客服', '')}
+          onClick={() => handleOpenWeb(CONTACT_URL, '联系客服', '联系客服')}
           shadow
         />
       </div>
