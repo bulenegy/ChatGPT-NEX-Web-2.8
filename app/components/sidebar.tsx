@@ -208,7 +208,8 @@ export function SideBar(props: { className?: string }) {
             // }}
 
             //直接取消面具启动功能
-            onClick={() => {navigate(Path.NewChat)}}
+            onClick={() => {chatStore.newSession();
+                            navigate(Path.NewChat)}}
             shadow
           />
         </div>
