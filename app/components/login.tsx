@@ -1,6 +1,6 @@
 import { IconButton } from "./button";
 import { ErrorBoundary } from "./error";
-import styles from "./mask.module.scss";
+import styles from "./login.scss";
 import "./login.scss";
 import CloseIcon from "../icons/close.svg";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +15,7 @@ import Locale from "../locales";
 import BotIcon from "../icons/bot.svg";
 import { useAccessStore } from "../store";
 import { getClientConfig } from "../config/client";
+import styles from "./auth.module.scss";
 
 
 export function LoginPage() {
@@ -64,6 +65,7 @@ export function LoginPage() {
             </div>
           </div>
         </div>
+        <div className={styles["auth-page"]}>
         <div style={{ padding: '1rem', overflow: 'scroll' }}>
           <div className="LoginConten">
           <div className={styles["auth-page"]}>
@@ -124,6 +126,7 @@ export function LoginPage() {
             </div>
           </div>
 
+        </div>
         </div>
       </div>
     </ErrorBoundary>
