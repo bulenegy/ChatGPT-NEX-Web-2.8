@@ -25,8 +25,7 @@ export function LoginPage() {
   const [webUrl, setWebUrl] = useState(""); // 添加一个状态来保存地址参数
   // 新增的处理函数，用于设置地址参数并导航到 web.tsx
   const handleOpenWeb = (url: string) => {
-    setWebUrl(url);
-    navigate(Path.Web);
+    navigate(`/web/${encodeURIComponent(url)}`);
   };
   //结束
 

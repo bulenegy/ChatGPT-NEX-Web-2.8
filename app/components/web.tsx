@@ -3,7 +3,7 @@ import { ErrorBoundary } from "./error";
 import styles from "./login.scss";
 import styles2 from "./auth.module.scss";
 import CloseIcon from "../icons/close.svg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useParams } from "react-router-dom";
 import {  Path } from "../constant";
 import React, { useEffect } from 'react';
 
@@ -21,8 +21,9 @@ export function WebPage() {
   }, []);
 
   // 获取地址参数
-  const urlParams = new URLSearchParams(window.location.search);
-  const webUrl = urlParams.get('url');
+  const { url } = useParams();
+//   const urlParams = new URLSearchParams(window.location.search);
+//   const webUrl = urlParams.get('url');
   return (
     <div style={{ height: "100%" }}>
       <div className="window-header">
@@ -47,7 +48,7 @@ export function WebPage() {
         </div>
 
       </div>
-      <iframe src={webUrl || ""} style={{ width: "100%", height: "calc(100% - 80px)" }} />
+      <iframe src={decodeURIComponent(url)} style={{ width: "100%", height: "calc(100% - 80px)" }} />
     </div>
   );
 }
