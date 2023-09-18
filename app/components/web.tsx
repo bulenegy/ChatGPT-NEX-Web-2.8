@@ -48,7 +48,7 @@ export function WebPage() {
         </div>
 
       </div>
-      <iframe src={decodeURIComponent(url)} style={{ width: "100%", height: "calc(100% - 80px)" }} />
+      <iframe src={decodeURIComponent(url || "")} style={{ width: "100%", height: "calc(100% - 80px)" }} />
     </div>
   );
 }
