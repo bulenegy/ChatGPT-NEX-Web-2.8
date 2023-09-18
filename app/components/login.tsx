@@ -41,7 +41,7 @@ export function LoginPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div className={styles["mask-page"]}>
+    <div className={styles2["auth-page"]}>
       <div className="window-header">
         <div className="window-header-title">
           <div className="window-header-main-title">
