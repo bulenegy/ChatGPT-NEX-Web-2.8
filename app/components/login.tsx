@@ -13,12 +13,14 @@ import React, { useState, useEffect } from 'react';
 import Locale from "../locales";
 
 import BotIcon from "../icons/bot.svg";
-
+import { useAccessStore } from "../store";
 import { getClientConfig } from "../config/client";
 
 
 export function LoginPage() {
   const navigate = useNavigate();
+  const access = useAccessStore();
+  const accessStore = useAccessStore();
 
   
   const [showIframe, setShowIframe] = useState(false);
