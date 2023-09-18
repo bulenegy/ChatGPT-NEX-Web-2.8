@@ -15,7 +15,7 @@ import Locale from "../locales";
 import BotIcon from "../icons/bot.svg";
 import { useAccessStore } from "../store";
 import { getClientConfig } from "../config/client";
-import styles from "./auth.module.scss";
+
 
 
 export function LoginPage() {
