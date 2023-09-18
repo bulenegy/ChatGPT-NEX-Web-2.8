@@ -29,16 +29,21 @@ export function WebPage() {
       <div className="window-header">
         <div className="window-header-title">
           <div className="window-header-main-title">
-            登录
+            {/* 登录 */}
             {/* {Locale.Mask.Page.Title} */}
           </div>
           <div className="window-header-submai-title">
-            开始使用ChatGPT
+            {/* 开始使用ChatGPT */}
             {/* {Locale.Mask.Page.SubTitle(allMasks.length)} */}
           </div>
         </div>
         <div className="window-actions">
           <div className="window-action-button">
+            <IconButton
+              icon={<CloseIcon />}
+              bordered
+              onClick={() => navigate(-1)}
+            />
             <IconButton
               icon={<CloseIcon />}
               bordered
