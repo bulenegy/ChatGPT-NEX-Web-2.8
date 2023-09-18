@@ -53,6 +53,7 @@ export function AuthPage() {
 
   return (
     <ErrorBoundary>
+    <div style={{ display: "flex", flexDirection: "column" }}>
     
     <div className="window-header" data-tauri-drag-region>
         <div className="window-header-title">
@@ -131,6 +132,7 @@ export function AuthPage() {
       )}
 
       {/* <iframe src="https://j.apagpt.com/help" style={{ width: "100vw", height: "100vh" }} /> */}
+    </div>
     </div>
     
     </ErrorBoundary>
