@@ -3,7 +3,7 @@ import styles from "./login.scss";
 import styles2 from "./auth.module.scss";
 import CloseIcon from "../icons/close.svg";
 import { useNavigate } from "react-router-dom";
-import { Path } from "../constant";
+import { Path,HELP_URL} from "../constant";
 import React, { useState, useEffect } from 'react';
 
 import Locale from "../locales";
@@ -82,16 +82,10 @@ export function LoginPage() {
             type="primary"
             onClick={goHome}
           />
-          {/* 返回按钮 */}
-          {/* <IconButton text={Locale.Auth.Later} onClick={goHome} /> */}
-          {/* <IconButton text="立即购买" onClick={() => window.open(HELP_URL, '_blank')} /> */}
-          <IconButton text={buttonText} onClick={() => handleOpenWeb('https://j.apagpt.com/help', '使用说明', '购买API key')} />
-          
-        {/* 你可以将上述的 'https://www.baidu.com' 替换为你想要的地址参数 */}
-
+          <IconButton text={buttonText} 
+                      type="danger"
+                      onClick={() => handleOpenWeb(HELP_URL, '使用说明', '购买API key')} />
         </div>
-
-
       </div>
     </div>
   );

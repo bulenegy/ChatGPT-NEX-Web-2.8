@@ -112,6 +112,13 @@ export function SideBar(props: { className?: string }) {
   const navigate = useNavigate();
   const config = useAppConfig();
 
+  //网页传递地址参数功能
+  // 新增的处理函数，用于设置地址参数并导航到 web.tsx
+  const handleOpenWeb = (url:string, main_title:string, submai_title:string) => {
+    navigate(`/web/${encodeURIComponent(url)}/${encodeURIComponent(main_title)}/${encodeURIComponent(submai_title)}`);
+  };
+  //结束
+
   useHotKey();
 
   return (
@@ -152,7 +159,8 @@ export function SideBar(props: { className?: string }) {
           // a5470 联系客服跳转
           // onClick={() => showToast(Locale.WIP)}
           // onClick={() => window.open(LEARN_URL, '_blank')} 
-          onClick={() => window.open(CONTACT_URL, '_blank')} 
+          // onClick={() => window.open(CONTACT_URL, '_blank')} 
+          onClick={() => handleOpenWeb(CONTACT_URL, '联系客服', '')}
           shadow
         />
       </div>
