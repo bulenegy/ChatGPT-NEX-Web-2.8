@@ -3,6 +3,7 @@ import { ErrorBoundary } from "./error";
 import styles from "./login.scss";
 import styles2 from "./auth.module.scss";
 import CloseIcon from "../icons/close.svg";
+import WebIcon from "../icons/web.svg";
 import { useNavigate,useParams } from "react-router-dom";
 import {  Path } from "../constant";
 import React, { useEffect } from 'react';
@@ -40,9 +41,10 @@ export function WebPage() {
         <div className="window-actions">
           <div className="window-action-button">
             <IconButton
-              icon={<CloseIcon />}
+              icon={<WebIcon />}
               bordered
-              onClick={() => navigate(-1)}
+              onClick={() => {
+                window.open(decodeURIComponent(url || ""), '_blank')}}
             />
           </div>
           <div className="window-action-button">
