@@ -162,7 +162,7 @@ function Screen() {
               {/* a5470 新增页面*/}
               <Route path={Path.Login} element={<LoginPage />} />
               <Route path={Path.Web} element={<WebPage />} />
-              <Route path="/web/:url" element={<WebPage />} />
+              <Route path="/web/:url/:mian_title/:submai_title" element={<WebPage />} />
             </Routes>
           </div>
         </>

@@ -23,7 +23,7 @@ export function LoginPage() {
 
   //网页传递地址参数功能
   // 新增的处理函数，用于设置地址参数并导航到 web.tsx
-  const handleOpenWeb = (url: string, mian_title: string, submai_title: string) => {
+  const handleOpenWeb = (url:string, mian_title:string, submai_title:string) => {
     navigate(`/web/${encodeURIComponent(url)}/${encodeURIComponent(mian_title)}/${encodeURIComponent(submai_title)}`);
   };
   //结束
