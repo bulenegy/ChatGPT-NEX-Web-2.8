@@ -63,43 +63,11 @@ export function LoginPage() {
           </div>
         </div>
       </div>
-      <div className={styles2["auth-page"]}>
-        <div className={`no-dark ${styles2["auth-logo"]}`}>
-          <BotIcon />
-        </div>
 
-        <div className={styles2["auth-title"]}>{Locale.Auth.Title}</div>
-        <div className={styles2["auth-tips"]}>{Locale.Auth.Tips}</div>
-
-
-        <input
-          className={styles2["auth-input"]}
-          type="text"
-          placeholder={Locale.Auth.Input}
-          value={accessStore.token}
-          onChange={(e) => {
-            access.updateToken(e.currentTarget.value);
-          }}
-        />
-
-        <div className={styles2["auth-actions"]}>
-          <IconButton
-            text={Locale.Auth.Confirm}
-            type="primary"
-            onClick={goHome}
-          />
-          {/* 返回按钮 */}
-          {/* <IconButton text={Locale.Auth.Later} onClick={goHome} /> */}
-          {/* <IconButton text="立即购买" onClick={() => window.open(HELP_URL, '_blank')} /> */}
-          <IconButton text={buttonText} onClick={handleBuyNow} />
-        </div>
 
         {showIframe && (
           <iframe src="https://j.apagpt.com/help" style={{ width: "100%", height: "100%" }} />
         )}
-
-        {/* <iframe src="https://j.apagpt.com/help" style={{ width: "100vw", height: "100vh" }} /> */}
-      </div>
     </div>
   );
 }
