@@ -615,7 +615,7 @@ export function Settings() {
                     text="点击购买"
                     // onClick={() => window.location.href = 'http://qr05.cn/Cpk5M6'}
                     // onClick={() => window.open(HELP_URL, '_blank')}
-                    onClick={() => handleOpenWeb(HELP_URL, '购买说明', '购买API key')} />
+                    onClick={() => handleOpenWeb(HELP_URL, '购买说明', '购买API key')} 
 
                   /> 
               </ListItem>
