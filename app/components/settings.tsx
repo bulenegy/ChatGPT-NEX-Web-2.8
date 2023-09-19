@@ -386,6 +386,13 @@ export function Settings() {
   const clientConfig = useMemo(() => getClientConfig(), []);
   const showAccessCode = enabledAccessControl && !clientConfig?.isApp;
 
+  //网页传递地址参数功能
+  // 新增的处理函数，用于设置地址参数并导航到 web.tsx
+  const handleOpenWeb = (url:string, main_title:string, submai_title:string) => {
+    navigate(`/web/${encodeURIComponent(url)}/${encodeURIComponent(main_title)}/${encodeURIComponent(submai_title)}`);
+  };
+  //结束
+
   return (
     <ErrorBoundary>
       <div className="window-header" data-tauri-drag-region>
@@ -607,7 +614,9 @@ export function Settings() {
                     icon={<BuyIcon></BuyIcon>}
                     text="点击购买"
                     // onClick={() => window.location.href = 'http://qr05.cn/Cpk5M6'}
-                    onClick={() => window.open(HELP_URL, '_blank')}
+                    // onClick={() => window.open(HELP_URL, '_blank')}
+                    onClick={() => handleOpenWeb(HELP_URL, '购买说明', '购买API key')} />
+
                   /> 
               </ListItem>
 

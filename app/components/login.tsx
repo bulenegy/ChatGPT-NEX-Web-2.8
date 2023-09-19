@@ -84,7 +84,7 @@ export function LoginPage() {
           />
           <IconButton text={buttonText} 
                       type="danger"
-                      onClick={() => handleOpenWeb(HELP_URL, '使用说明', '购买API key')} />
+                      onClick={() => handleOpenWeb(HELP_URL, '购买说明', '购买API key')} />
         </div>
       </div>
     </div>
