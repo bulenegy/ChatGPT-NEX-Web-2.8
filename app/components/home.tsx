@@ -183,36 +183,42 @@ export function useLoadData() {
   }, []);
 }
 
+//原版Home函数
+// export function Home() {
+//   useSwitchTheme();
+//   useLoadData();
+//   useHtmlLang();
+
+//   useEffect(() => {
+//     console.log("[Config] got config from build time", getClientConfig());
+//     useAccessStore.getState().fetch();
+//   }, []);
+
+//   if (!useHasHydrated()) {
+//     return <Loading />;
+//   }
+
+//   return (
+//     <ErrorBoundary>
+//       <Router>
+//         <Screen />
+//       </Router>
+//     </ErrorBoundary>
+//   );
+// }
+
+//a5470 增加通知消息后的Home
 export function Home() {
   useSwitchTheme();
   useLoadData();
   useHtmlLang();
 
-  useEffect(() => {
-    console.log("[Config] got config from build time", getClientConfig());
-    useAccessStore.getState().fetch();
-  }, []);
-
-  if (!useHasHydrated()) {
-    return <Loading />;
-  }
-
-  return (
-    <ErrorBoundary>
-      <Router>
-        <Screen />
-      </Router>
-    </ErrorBoundary>
-  );
-}
-
-//a5470 通知消息
-export function Home() {
-
-  useSwitchTheme();
   const [showNotification, setShowNotification] = useState(true);
 
   useEffect(() => {
+    console.log("[Config] got config from build time", getClientConfig());
+    useAccessStore.getState().fetch();
+
     const showNotificationFromStorage = localStorage.getItem('showNotification');
     setShowNotification(showNotificationFromStorage !== 'false');
   }, []);
@@ -221,16 +227,15 @@ export function Home() {
     return <Loading />;
   }
 
-
   return (
     <ErrorBoundary>
       {showNotification && (
         <div className={styles.notification}>
           <p>通知：本网站于昨日更新，部分用户可能API key需要重新填入才能使用，请点击左上角登录按钮重新填入API key。如需找回API key请咨询客服微信：ppks100</p>
           <button onClick={() => {
-                                  setShowNotification(false);
-                                  localStorage.setItem('showNotification', 'false');
-                                }}>不再通知</button>
+            setShowNotification(false);
+            localStorage.setItem('showNotification', 'false');
+          }}>不再通知</button>
         </div>
       )}
       <Router>
