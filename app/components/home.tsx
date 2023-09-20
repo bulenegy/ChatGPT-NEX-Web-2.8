@@ -205,3 +205,37 @@ export function Home() {
     </ErrorBoundary>
   );
 }
+
+//a5470 通知消息
+export function Home() {
+
+  useSwitchTheme();
+  const [showNotification, setShowNotification] = useState(true);
+
+  useEffect(() => {
+    const showNotificationFromStorage = localStorage.getItem('showNotification');
+    setShowNotification(showNotificationFromStorage !== 'false');
+  }, []);
+
+  if (!useHasHydrated()) {
+    return <Loading />;
+  }
+
+
+  return (
+    <ErrorBoundary>
+      {showNotification && (
+        <div className={styles.notification}>
+          <p>通知：本网站于昨日更新，部分用户可能API key需要重新填入才能使用，请点击左上角登录按钮重新填入API key。如需找回API key请咨询客服微信：ppks100</p>
+          <button onClick={() => {
+                                  setShowNotification(false);
+                                  localStorage.setItem('showNotification', 'false');
+                                }}>不再通知</button>
+        </div>
+      )}
+      <Router>
+        <Screen />
+      </Router>
+    </ErrorBoundary>
+  );
+}
