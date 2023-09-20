@@ -231,7 +231,7 @@ export function Home() {
     <ErrorBoundary>
       {showNotification && (
         <div className={styles.notification}>
-          <p>通知：由于本网站昨日更新，部分用户的API key需要重新填入后才能使用，请点击左上角登录按钮重新填入API key。如需找回API key请咨询客服微信：ppks100</p>
+          <p>通知：由于本网站9月19日进行更新，部分用户的API key需要重新填入后才能使用，请点击左上角登录按钮重新填入API key。如需找回API key请咨询客服微信：ppks100</p>
           <button onClick={() => {
             setShowNotification(false);
             localStorage.setItem('showNotification', 'false');
