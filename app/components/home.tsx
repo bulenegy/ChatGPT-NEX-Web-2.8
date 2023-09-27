@@ -184,43 +184,14 @@ export function useLoadData() {
 }
 
 //原版Home函数
-// export function Home() {
-//   useSwitchTheme();
-//   useLoadData();
-//   useHtmlLang();
-
-//   useEffect(() => {
-//     console.log("[Config] got config from build time", getClientConfig());
-//     useAccessStore.getState().fetch();
-//   }, []);
-
-//   if (!useHasHydrated()) {
-//     return <Loading />;
-//   }
-
-//   return (
-//     <ErrorBoundary>
-//       <Router>
-//         <Screen />
-//       </Router>
-//     </ErrorBoundary>
-//   );
-// }
-
-//a5470 增加通知消息后的Home
 export function Home() {
   useSwitchTheme();
   useLoadData();
   useHtmlLang();
 
-  const [showNotification, setShowNotification] = useState(true);
-
   useEffect(() => {
     console.log("[Config] got config from build time", getClientConfig());
     useAccessStore.getState().fetch();
-
-    const showNotificationFromStorage = localStorage.getItem('showNotification');
-    setShowNotification(showNotificationFromStorage !== 'false');
   }, []);
 
   if (!useHasHydrated()) {
@@ -229,18 +200,47 @@ export function Home() {
 
   return (
     <ErrorBoundary>
-      {showNotification && (
-        <div className={styles.notification}>
-          <p>各位用户：您好，由于本网站9月19日进行更新，部分用户的API key需要重新填入后才能使用，请您点击左上角登录按钮重新填入API key。如您需找回API key请咨询客服微信：ppks100</p>
-          <button onClick={() => {
-            setShowNotification(false);
-            localStorage.setItem('showNotification', 'false');
-          }}>不再通知</button>
-        </div>
-      )}
       <Router>
         <Screen />
       </Router>
     </ErrorBoundary>
   );
 }
+
+//a5470 增加通知消息后的Home
+// export function Home() {
+//   useSwitchTheme();
+//   useLoadData();
+//   useHtmlLang();
+
+//   const [showNotification, setShowNotification] = useState(true);
+
+//   useEffect(() => {
+//     console.log("[Config] got config from build time", getClientConfig());
+//     useAccessStore.getState().fetch();
+
+//     const showNotificationFromStorage = localStorage.getItem('showNotification');
+//     setShowNotification(showNotificationFromStorage !== 'false');
+//   }, []);
+
+//   if (!useHasHydrated()) {
+//     return <Loading />;
+//   }
+
+//   return (
+//     <ErrorBoundary>
+//       {showNotification && (
+//         <div className={styles.notification}>
+//           <p>各位用户：您好，由于本网站9月19日进行更新，部分用户的API key需要重新填入后才能使用，请您点击左上角登录按钮重新填入API key。如您需找回API key请咨询客服微信：ppks100</p>
+//           <button onClick={() => {
+//             setShowNotification(false);
+//             localStorage.setItem('showNotification', 'false');
+//           }}>不再通知</button>
+//         </div>
+//       )}
+//       <Router>
+//         <Screen />
+//       </Router>
+//     </ErrorBoundary>
+//   );
+// }
