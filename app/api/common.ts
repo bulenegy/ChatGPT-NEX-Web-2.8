@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
 //a5470 chatgpt api代理接口修改
-// export const OPENAI_URL = "api.openai.com";
-export const OPENAI_URL = "http://chat.apagpt.com/api";
+export const OPENAI_URL = "api.openai.com";
+// export const OPENAI_URL = "http://chat.apagpt.com/api";
 const DEFAULT_PROTOCOL = "https";
 const PROTOCOL = process.env.PROTOCOL || DEFAULT_PROTOCOL;
 const BASE_URL = process.env.BASE_URL || OPENAI_URL;

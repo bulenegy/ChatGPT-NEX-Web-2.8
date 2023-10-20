@@ -64,9 +64,9 @@ if (mode !== "export") {
     const ret = [
       {
         source: "/api/proxy/:path*",
-        destination: "http://chat.apagpt.com/api/:path*",
+        // destination: "http://chat.apagpt.com/api/:path*",
         //a5470 chatgpt api代理接口修改
-        // destination: "https://api.openai.com/:path*",
+        destination: "https://api.openai.com/:path*",
       },
       {
         source: "/google-fonts/:path*",
