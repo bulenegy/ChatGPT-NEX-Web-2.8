@@ -64,7 +64,7 @@ if (mode !== "export") {
     const ret = [
       {
         source: "/api/proxy/:path*",
-        destination: "http://8.222.243.62/api/:path*",
+        destination: "http://chat.apagpt.com/api/:path*",
         //a5470 chatgpt api代理接口修改
         // destination: "https://api.openai.com/:path*",
       },
