@@ -9,8 +9,8 @@ export const FETCH_TAG_URL = `https://api.github.com/repos/${OWNER}/${REPO}/tags
 export const RUNTIME_CONFIG_DOM = "danger-runtime-config";
 // export const DEFAULT_API_HOST = "https://chatgpt1.nextweb.fun/api/proxy";
 //a5470 chatgpt api代理接口修改
-// export const DEFAULT_API_HOST = "https://api.openai.com/";
-export const DEFAULT_API_HOST = "http://chat.apagpt.com/api";
+export const DEFAULT_API_HOST = "https://api.openai.com/";
+// export const DEFAULT_API_HOST = "http://chat.apagpt.com/api";
 export const HELP_URL = "https://j.apagpt.com/help";
 export const LEARN_URL="https://j.apagpt.com/help"
 export const CONTACT_URL="https://j.apagpt.com/contact"
