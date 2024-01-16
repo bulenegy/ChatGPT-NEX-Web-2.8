@@ -14,10 +14,10 @@ type NonFunctionKeys<T> = {
 }[keyof T];
 type NonFunctionFields<T> = Pick<T, NonFunctionKeys<T>>;
 
-export function getNonFunctionFileds<T extends object>(obj: T) {
+export function getNonFunctionFields<T extends object>(obj: T) {
   const ret: any = {};
 
-  Object.entries(obj).map(([k, v]) => {
+  Object.entries(obj).forEach(([k, v]) => {
     if (typeof v !== "function") {
       ret[k] = v;
     }
@@ -39,16 +39,16 @@ const LocalStateSetters = {
 } as const;
 
 const LocalStateGetters = {
-  [StoreKey.Chat]: () => getNonFunctionFileds(useChatStore.getState()),
-  [StoreKey.Access]: () => getNonFunctionFileds(useAccessStore.getState()),
-  [StoreKey.Config]: () => getNonFunctionFileds(useAppConfig.getState()),
-  [StoreKey.Mask]: () => getNonFunctionFileds(useMaskStore.getState()),
-  [StoreKey.Prompt]: () => getNonFunctionFileds(usePromptStore.getState()),
+  [StoreKey.Chat]: () => getNonFunctionFields(useChatStore.getState()),
+  [StoreKey.Access]: () => getNonFunctionFields(useAccessStore.getState()),
+  [StoreKey.Config]: () => getNonFunctionFields(useAppConfig.getState()),
+  [StoreKey.Mask]: () => getNonFunctionFields(useMaskStore.getState()),
+  [StoreKey.Prompt]: () => getNonFunctionFields(usePromptStore.getState()),
 } as const;
 
 export type AppState = {
-  [k in keyof typeof LocalStateGetters]: ReturnType<
-    (typeof LocalStateGetters)[k]
+  [K in keyof typeof LocalStateGetters]: ReturnType<
+    (typeof LocalStateGetters)[K]
   >;
 };
 
@@ -143,21 +143,20 @@ export function mergeAppState(localState: AppState, remoteState: AppState) {
 }
 
 /**
- * Merge state with `lastUpdateTime`, older state will be override
+ * Merge state with `lastUpdateTime`, older state will be overridden
  */
 export function mergeWithUpdate<T extends { lastUpdateTime?: number }>(
   localState: T,
   remoteState: T,
 ) {
   const localUpdateTime = localState.lastUpdateTime ?? 0;
-  // const remoteUpdateTime = localState.lastUpdateTime ?? 1;
   const remoteUpdateTime = remoteState.lastUpdateTime ?? 1;
 
   if (localUpdateTime < remoteUpdateTime) {
-    merge(remoteState, localState);
+    merge(localState, remoteState);
     return { ...remoteState };
   } else {
-    merge(localState, remoteState);
-    return { ...localState };
+    merge(remoteState, localState);
+    return { ...remoteState };
   }
 }
