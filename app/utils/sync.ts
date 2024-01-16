@@ -1,162 +1,87 @@
-import {
-  ChatSession,
-  useAccessStore,
-  useAppConfig,
-  useChatStore,
-} from "../store";
-import { useMaskStore } from "../store/mask";
-import { usePromptStore } from "../store/prompt";
+import { Updater } from "../typing";
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import { StoreKey } from "../constant";
-import { merge } from "./merge";
 
-type NonFunctionKeys<T> = {
-  [K in keyof T]: T[K] extends (...args: any[]) => any ? never : K;
-}[keyof T];
-type NonFunctionFields<T> = Pick<T, NonFunctionKeys<T>>;
-
-export function getNonFunctionFields<T extends object>(obj: T) {
-  const ret: any = {};
-
-  Object.entries(obj).forEach(([k, v]) => {
-    if (typeof v !== "function") {
-      ret[k] = v;
-    }
-  });
-
-  return ret as NonFunctionFields<T>;
+export interface WebDavConfig {
+  server: string;
+  username: string;
+  password: string;
 }
 
-export type GetStoreState<T> = T extends { getState: () => infer U }
-  ? NonFunctionFields<U>
-  : never;
+export interface SyncStore {
+  webDavConfig: WebDavConfig;
+  lastSyncTime: number;
 
-const LocalStateSetters = {
-  [StoreKey.Chat]: useChatStore.setState,
-  [StoreKey.Access]: useAccessStore.setState,
-  [StoreKey.Config]: useAppConfig.setState,
-  [StoreKey.Mask]: useMaskStore.setState,
-  [StoreKey.Prompt]: usePromptStore.setState,
-} as const;
+  update: Updater<WebDavConfig>;
+  check: () => Promise<boolean>;
 
-const LocalStateGetters = {
-  [StoreKey.Chat]: () => getNonFunctionFields(useChatStore.getState()),
-  [StoreKey.Access]: () => getNonFunctionFields(useAccessStore.getState()),
-  [StoreKey.Config]: () => getNonFunctionFields(useAppConfig.getState()),
-  [StoreKey.Mask]: () => getNonFunctionFields(useMaskStore.getState()),
-  [StoreKey.Prompt]: () => getNonFunctionFields(usePromptStore.getState()),
-} as const;
+  path: (path: string) => string;
+  headers: () => { Authorization: string };
+}
 
-export type AppState = {
-  [K in keyof typeof LocalStateGetters]: ReturnType<
-    (typeof LocalStateGetters)[K]
-  >;
+const FILE = {
+  root: "/chatgpt-next-web/",
 };
 
-type Merger<T extends keyof AppState, U = AppState[T]> = (
-  localState: U,
-  remoteState: U,
-) => U;
+export const useSyncStore = create<SyncStore>()(
+  persist(
+    (set, get) => ({
+      webDavConfig: {
+        server: "",
+        username: "",
+        password: "",
+      },
 
-type StateMerger = {
-  [K in keyof AppState]: Merger<K>;
-};
+      lastSyncTime: 0,
 
-// we merge remote state to local state
-const MergeStates: StateMerger = {
-  [StoreKey.Chat]: (localState, remoteState) => {
-    // merge sessions
-    const localSessions: Record<string, ChatSession> = {};
-    localState.sessions.forEach((s) => (localSessions[s.id] = s));
+      update(updater) {
+        const config = { ...get().webDavConfig };
+        updater(config);
+        set({ webDavConfig: config });
+      },
 
-    remoteState.sessions.forEach((remoteSession) => {
-      const localSession = localSessions[remoteSession.id];
-      if (!localSession) {
-        // if remote session is new, just merge it
-        localState.sessions.push(remoteSession);
-      } else {
-        // if both have the same session id, merge the messages
-        const localMessageIds = new Set(localSession.messages.map((v) => v.id));
-        remoteSession.messages.forEach((m) => {
-          if (!localMessageIds.has(m.id)) {
-            localSession.messages.push(m);
-          }
-        });
+      async check() {
+        try {
+          const res = await fetch(this.path(""), {
+            method: "PROFIND",
+            headers: this.headers(),
+          });
+          console.log(res);
+          return res.status === 207;
+        } catch (e) {
+          console.error("[Sync] ", e);
+          return false;
+        }
+      },
 
-        // sort local messages with date field in asc order
-        localSession.messages.sort(
-          (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+      path(path: string) {
+        let url = get().webDavConfig.server;
+
+        if (!url.endsWith("/")) {
+          url += "/";
+        }
+
+        if (path.startsWith("/")) {
+          path = path.slice(1);
+        }
+
+        return url + path;
+      },
+
+      headers() {
+        const auth = btoa(
+          [get().webDavConfig.username, get().webDavConfig.password].join(":"),
         );
-      }
-    });
 
-    // sort local sessions with date field in desc order
-    localState.sessions.sort(
-      (a, b) =>
-        new Date(b.lastUpdate).getTime() - new Date(a.lastUpdate).getTime(),
-    );
-
-    return localState;
-  },
-  [StoreKey.Prompt]: (localState, remoteState) => {
-    localState.prompts = {
-      ...remoteState.prompts,
-      ...localState.prompts,
-    };
-    return localState;
-  },
-  [StoreKey.Mask]: (localState, remoteState) => {
-    localState.masks = {
-      ...remoteState.masks,
-      ...localState.masks,
-    };
-    return localState;
-  },
-  [StoreKey.Config]: mergeWithUpdate<AppState[StoreKey.Config]>,
-  [StoreKey.Access]: mergeWithUpdate<AppState[StoreKey.Access]>,
-};
-
-export function getLocalAppState() {
-  const appState = Object.fromEntries(
-    Object.entries(LocalStateGetters).map(([key, getter]) => {
-      return [key, getter()];
+        return {
+          Authorization: `Basic ${auth}`,
+        };
+      },
     }),
-  ) as AppState;
-
-  return appState;
-}
-
-export function setLocalAppState(appState: AppState) {
-  Object.entries(LocalStateSetters).forEach(([key, setter]) => {
-    setter(appState[key as keyof AppState]);
-  });
-}
-
-export function mergeAppState(localState: AppState, remoteState: AppState) {
-  Object.keys(localState).forEach(<T extends keyof AppState>(k: string) => {
-    const key = k as T;
-    const localStoreState = localState[key];
-    const remoteStoreState = remoteState[key];
-    MergeStates[key](localStoreState, remoteStoreState);
-  });
-
-  return localState;
-}
-
-/**
- * Merge state with `lastUpdateTime`, older state will be overridden
- */
-export function mergeWithUpdate<T extends { lastUpdateTime?: number }>(
-  localState: T,
-  remoteState: T,
-) {
-  const localUpdateTime = localState.lastUpdateTime ?? 0;
-  const remoteUpdateTime = remoteState.lastUpdateTime ?? 1;
-
-  if (localUpdateTime < remoteUpdateTime) {
-    merge(localState, remoteState);
-    return { ...remoteState };
-  } else {
-    merge(remoteState, localState);
-    return { ...remoteState };
-  }
-}
+    {
+      name: StoreKey.Sync,
+      version: 1,
+    },
+  ),
+);
