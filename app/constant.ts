@@ -119,6 +119,13 @@ export const DEFAULT_MODELS = [
     name: "gpt-3.5-turbo-16k-0613",
     available: true,
   },
+  //a5470
+  //midjourney功能start
+  {
+    name: "midjourney",
+    available: true,
+  },
+  //midjourney功能over
 ] as const;
 
 export const CHAT_PAGE_SIZE = 15;
