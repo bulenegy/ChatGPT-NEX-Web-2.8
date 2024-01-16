@@ -1426,7 +1426,8 @@ function _Chat() {
               <image
               // <img
               // 此处为了实现midjourney功能将img换为image
-                src={img.base64}
+                // src={img.base64}
+                href={img.base64}
                 key={i}
                 onClick={() => {
                   setUseImages(useImages.filter((_, ii) => ii != i));
