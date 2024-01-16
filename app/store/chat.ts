@@ -319,7 +319,8 @@ export const useChatStore = createPersistStore(
 
       //a5470
       //midjourner功能start
-      fetchMneyStatus(botMessage: ChatMessage, extAttr?: any) {
+      //原版：fetchMneyStatus(botMessage: ChatMessage, extAttr?: any) {
+      fetchMidjourneyStatus(botMessage: ChatMessage, extAttr?: any) {
         const taskId = botMessage?.attr?.taskId;
         // console.log('fetchMidjourneyStatus', botMessage, extAttr)
         if (
