@@ -38,6 +38,10 @@ export const DEFAULT_CONFIG = {
   sidebarWidth: 300,
 
   disablePromptHint: false,
+  //a5470
+  //midjourney功能start
+  useMjImgSelfProxy:false,
+  //midjourney功能over
 
   dontShowMaskSplashScreen: false, // dont show splash screen when create chat
   hideBuiltinMasks: false, // dont add builtin masks

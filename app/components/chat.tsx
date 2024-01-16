@@ -1412,7 +1412,9 @@ function _Chat() {
         {useImages.length > 0 && (
           <div className={styles["chat-select-images"]}>
             {useImages.map((img: any, i) => (
-              <img
+              <image
+              // <img
+              // 此处为了实现midjourney功能将img换为image
                 src={img.base64}
                 key={i}
                 onClick={() => {
