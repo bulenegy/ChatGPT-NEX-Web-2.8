@@ -115,7 +115,12 @@ interface ChatStore {
   currentSession: () => ChatSession;
   nextSession: (delta: number) => void;
   onNewMessage: (message: ChatMessage) => void;
-  onUserInput: (content: string) => Promise<void>;
+  //a5470
+  //原版
+  //onUserInput: (content: string) => Promise<void>;
+  //midjourney功能start
+  onUserInput: (content: string, extAttr?: any) => Promise<void>;
+  //midjourney功能over
   summarizeSession: () => void;
   updateStat: (message: ChatMessage) => void;
   updateCurrentSession: (updater: (session: ChatSession) => void) => void;
@@ -427,7 +432,7 @@ export const useChatStore = createPersistStore(
       //async onUserInput(content: string) {
 
       //midjourney功能start
-      async onUserInput(content: string) {
+      async onUserInput(content: string,extAttr?: any) {
         //midjourner功能over
         const session = get().currentSession();
         const modelConfig = session.mask.modelConfig;
