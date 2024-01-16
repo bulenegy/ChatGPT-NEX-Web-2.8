@@ -111,8 +111,8 @@ const MergeStates: StateMerger = {
     };
     return localState;
   },
-  [StoreKey.Config]: mergeWithUpdate<AppState[StoreKey.Config]>,
-  [StoreKey.Access]: mergeWithUpdate<AppState[StoreKey.Access]>,
+  // [StoreKey.Config]: mergeWithUpdate<AppState[StoreKey.Config]>,
+  // [StoreKey.Access]: mergeWithUpdate<AppState[StoreKey.Access]>,
 };
 
 export function getLocalAppState() {
@@ -145,18 +145,18 @@ export function mergeAppState(localState: AppState, remoteState: AppState) {
 /**
  * Merge state with `lastUpdateTime`, older state will be override
  */
-export function mergeWithUpdate<T extends { lastUpdateTime?: number }>(
-  localState: T,
-  remoteState: T,
-) {
-  const localUpdateTime = localState.lastUpdateTime ?? 0;
-  const remoteUpdateTime = localState.lastUpdateTime ?? 1;
+// export function mergeWithUpdate<T extends { lastUpdateTime?: number }>(
+//   localState: T,
+//   remoteState: T,
+// ) {
+//   const localUpdateTime = localState.lastUpdateTime ?? 0;
+//   const remoteUpdateTime = localState.lastUpdateTime ?? 1;
 
-  if (localUpdateTime < remoteUpdateTime) {
-    merge(remoteState, localState);
-    return { ...remoteState };
-  } else {
-    merge(localState, remoteState);
-    return { ...localState };
-  }
-}
+//   if (localUpdateTime < remoteUpdateTime) {
+//     merge(remoteState, localState);
+//     return { ...remoteState };
+//   } else {
+//     merge(localState, remoteState);
+//     return { ...localState };
+//   }
+// }
