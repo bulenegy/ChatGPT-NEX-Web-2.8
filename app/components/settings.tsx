@@ -755,7 +755,41 @@ export function Settings() {
               onClick={() => setShowPromptModal(true)}
             />
           </ListItem>
+
+          <ListItem
+            title={`Midjourney ${Locale.Midjourney.ImageAgent}`}
+            subTitle={Locale.Midjourney.ImageAgentOpenTip}
+          >
+            <input
+              type="checkbox"
+              checked={config.useMjImgSelfProxy}
+              onChange={(e) =>
+                updateConfig(
+                  (config) =>
+                    (config.useMjImgSelfProxy = e.currentTarget.checked),
+                )
+              }
+            ></input>
+          </ListItem>
         </List>
+        <List>
+          <ListItem
+            title={`Midjourney ${Locale.Midjourney.ImageAgent}`}
+            subTitle={Locale.Midjourney.ImageAgentOpenTip}
+          >
+            <input
+              type="checkbox"
+              checked={config.useMjImgSelfProxy}
+              onChange={(e) =>
+                updateConfig(
+                  (config) =>
+                    (config.useMjImgSelfProxy = e.currentTarget.checked),
+                )
+              }
+            ></input>
+          </ListItem>
+        </List>
+
 
 
 

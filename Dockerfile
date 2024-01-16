@@ -33,6 +33,15 @@ ENV PROXY_URL=""
 ENV OPENAI_API_KEY=""
 ENV CODE=""
 
+# a5470
+# midjourney功能start
+ENV MJ_SERVER_ID=""
+ENV MJ_CHANNEL_ID=""
+ENV MJ_USER_TOKEN=""
+ENV MJ_DISCORD_WSS_PROXY=""
+ENV MJ_DISCORD_CDN_PROXY=""
+# midjourney功能over
+
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static

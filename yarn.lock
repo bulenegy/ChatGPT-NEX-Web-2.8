@@ -4636,6 +4636,24 @@ micromatch@^4.0.4, micromatch@^4.0.5:
     braces "^3.0.2"
     picomatch "^2.3.1"
 
+#a5470
+#midjourney功能start
+
+midjourney@^4.3.12:
+  version "4.3.12"
+  resolved "https://registry.npmjs.org/midjourney/-/midjourney-4.3.12.tgz"
+  integrity sha512-DoLMgQarAmKxl/2ADa//5O1Ih2JTOoy6clbgyhrjco1J0yJCp7YlgSAPYlP1kcEtlG8A6kT+21/GVdCg35B9TQ==
+  dependencies:
+    "@huggingface/inference" "^2.5.0"
+    async "^3.2.4"
+    isomorphic-ws "^5.0.0"
+    semiver "^1.1.0"
+    snowyflake "^2.0.0"
+    tslib "^2.5.0"
+    ws "^8.13.0"
+    
+#midjourney功能over
+
 mime-db@1.52.0:
   version "1.52.0"
   resolved "https://registry.npmmirror.com/mime-db/-/mime-db-1.52.0.tgz#bbabcdc02859f4987301c856e3387ce5ec43bf70"

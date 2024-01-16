@@ -13,7 +13,15 @@ import {
   StoreKey,
   SUMMARIZE_MODEL,
 } from "../constant";
-import { api, RequestMessage } from "../client/api";
+import {
+  api,
+  RequestMessage,
+  //a5470
+  //midjourney功能start
+  getHeaders,
+  useGetMidjourneySelfProxyUrl,
+  //midjourney功能over
+} from "../client/api";
 import { ChatControllerPool } from "../client/controller";
 import { prettyObject } from "../utils/format";
 import { estimateTokenLength } from "../utils/token";
@@ -26,6 +34,10 @@ export type ChatMessage = RequestMessage & {
   isError?: boolean;
   id: string;
   model?: ModelType;
+  //a5470
+  //midjourney功能start
+  attr?: any;
+  //midjourney功能over
 };
 
 export function createMessage(override: Partial<ChatMessage>): ChatMessage {
@@ -82,6 +94,11 @@ function createEmptySession(): ChatSession {
   };
 }
 
+//a5470
+//midjourney功能start
+const ChatFetchTaskPool: Record<string, any> = {};
+//midjourney功能over
+
 function getSummarizeModel(currentModel: string) {
   // if it is using gpt-* models, force to use 3.5 to summarize
   return currentModel.startsWith("gpt") ? SUMMARIZE_MODEL : currentModel;
@@ -112,6 +129,10 @@ interface ChatStore {
   getMemoryPrompt: () => ChatMessage;
 
   clearAllData: () => void;
+  //a5470
+  //midjourney功能start
+  fetchMidjourneyStatus: (botMessage: ChatMessage, extAttr?: any) => void;
+  //midjourney功能over
 }
 
 function countMessages(msgs: ChatMessage[]) {
@@ -291,9 +312,148 @@ export const useChatStore = createPersistStore(
         get().summarizeSession();
       },
 
+      //a5470
+      //midjourner功能start
+      fetchMneyStatus(botMessage: ChatMessage, extAttr?: any) {
+        const taskId = botMessage?.attr?.taskId;
+        // console.log('fetchMidjourneyStatus', botMessage, extAttr)
+        if (
+          !taskId ||
+          ["SUCCESS", "FAILURE"].includes(botMessage?.attr?.status) ||
+          ChatFetchTaskPool[taskId]
+        )
+          return;
+        // console.log('fetchMidjourneyStatus enter', botMessage, extAttr)
+        ChatFetchTaskPool[taskId] = setTimeout(async () => {
+          ChatFetchTaskPool[taskId] = null;
+          const statusRes = await fetch(
+            `/api/midjourney/task/status/${taskId}`,
+            {
+              method: "GET",
+              headers: getHeaders(),
+            },
+          );
+          const statusResJson = await statusRes.json();
+          if (statusRes.status < 200 || statusRes.status >= 300) {
+            botMessage.content =
+              Locale.Midjourney.TaskStatusFetchFail +
+              ": " +
+              (statusResJson?.error || statusResJson?.description) ||
+              Locale.Midjourney.UnknownReason;
+          } else {
+            let isFinished = false;
+            let content;
+            const prefixContent = Locale.Midjourney.TaskPrefix(
+              statusResJson.prompt,
+              taskId,
+            );
+            switch (statusResJson?.status) {
+              case "SUCCESS":
+                content = statusResJson.uri;
+                isFinished = true;
+                if (statusResJson.uri) {
+                  let imgUrl = useGetMidjourneySelfProxyUrl(
+                    statusResJson.uri,
+                  );
+                  botMessage.attr.imgUrl = imgUrl;
+                  botMessage.content =
+                    prefixContent + `[![${taskId}](${imgUrl})](${imgUrl})`;
+                }
+                if (
+                  statusResJson.action === "DESCRIBE" &&
+                  statusResJson.prompt
+                ) {
+                  botMessage.content = statusResJson.prompt;
+                }
+                botMessage.attr.options = statusResJson.options
+                botMessage.attr.msgId = statusResJson.msgId
+                botMessage.attr.flags = statusResJson.flags
+                botMessage.attr.msgHash = statusResJson.msgHash
+                break;
+              case "FAIL":
+                content =
+                  statusResJson.msg || Locale.Midjourney.UnknownReason;
+                isFinished = true;
+                botMessage.content =
+                  prefixContent +
+                  `**${Locale.Midjourney.TaskStatus
+                  }:** [${new Date().toLocaleString()}] - ${content}`;
+                break;
+              case "WAIT":
+                content = Locale.Midjourney.TaskNotStart;
+                break;
+              case "PROGRESS":
+                content = Locale.Midjourney.TaskProgressTip(
+                  statusResJson.progress,
+                );
+                break;
+              case "SUBMITTED":
+                content = Locale.Midjourney.TaskRemoteSubmit;
+                break;
+              default:
+                content = statusResJson.status;
+            }
+            botMessage.attr.status = statusResJson.status;
+            if (isFinished) {
+              botMessage.attr.finished = true;
+            } else {
+              botMessage.content =
+                prefixContent +
+                `**${Locale.Midjourney.TaskStatus
+                }:** [${new Date().toLocaleString()}] - ${content}`;
+              if (
+                statusResJson.status === "PROGRESS" &&
+                statusResJson.uri
+              ) {
+                let imgUrl = useGetMidjourneySelfProxyUrl(
+                  statusResJson.uri,
+                );
+                botMessage.attr.imgUrl = imgUrl;
+                botMessage.content += `\n[![${taskId}](${imgUrl})](${imgUrl})`;
+              }
+              this.fetchMidjourneyStatus(botMessage, extAttr);
+            }
+            set(() => ({}));
+            if (isFinished) {
+              extAttr?.setAutoScroll(true);
+            }
+          }
+        }, 3000);
+      },
+      //midjourney功能over
+
+      //a5470
+      //原版
+      //async onUserInput(content: string) {
+
+      //midjourney功能start
       async onUserInput(content: string) {
+        //midjourner功能over
         const session = get().currentSession();
         const modelConfig = session.mask.modelConfig;
+
+        //a5470
+        //midjourney功能start
+        if (
+          extAttr?.mjImageMode &&
+          (extAttr?.useImages?.length ?? 0) > 0 &&
+          extAttr.mjImageMode !== "IMAGINE"
+        ) {
+          if (
+            extAttr.mjImageMode === "BLEND" &&
+            (extAttr.useImages.length < 2 || extAttr.useImages.length > 5)
+          ) {
+            alert(Locale.Midjourney.BlendMinImg(2, 5));
+            return new Promise((resolve: any, reject) => {
+              resolve(false);
+            });
+          }
+          content = `/mj ${extAttr?.mjImageMode}`;
+          extAttr.useImages.forEach((img: any, index: number) => {
+            content += `::[${index + 1}]${img.filename}`;
+          });
+        }
+        //midjourner功能over
 
         const userContent = fillTemplateWith(content, modelConfig);
         console.log("[User Input] after template: ", userContent);
@@ -314,6 +474,11 @@ export const useChatStore = createPersistStore(
         const sendMessages = recentMessages.concat(userMessage);
         const messageIndex = get().currentSession().messages.length + 1;
 
+        //a5470
+        //midjourney功能start
+        const sessionId = get().currentSession().id;
+        //midjourney功能over
+
         // save user's and bot's message
         get().updateCurrentSession((session) => {
           const savedUserMessage = {
@@ -326,57 +491,167 @@ export const useChatStore = createPersistStore(
           ]);
         });
 
-        // make request
-        api.llm.chat({
-          messages: sendMessages,
-          config: { ...modelConfig, stream: true },
-          onUpdate(message) {
-            botMessage.streaming = true;
-            if (message) {
-              botMessage.content = message;
-            }
-            get().updateCurrentSession((session) => {
-              session.messages = session.messages.concat();
-            });
-          },
-          onFinish(message) {
-            botMessage.streaming = false;
-            if (message) {
-              botMessage.content = message;
-              get().onNewMessage(botMessage);
-            }
-            ChatControllerPool.remove(session.id, botMessage.id);
-          },
-          onError(error) {
-            const isAborted = error.message.includes("aborted");
-            botMessage.content +=
-              "\n\n" +
-              prettyObject({
-                error: true,
-                message: error.message,
-              });
-            botMessage.streaming = false;
-            userMessage.isError = !isAborted;
-            botMessage.isError = !isAborted;
-            get().updateCurrentSession((session) => {
-              session.messages = session.messages.concat();
-            });
-            ChatControllerPool.remove(
-              session.id,
-              botMessage.id ?? messageIndex,
-            );
 
-            console.error("[Chat] failed ", error);
-          },
-          onController(controller) {
-            // collect controller for stop/retry
-            ChatControllerPool.addController(
-              session.id,
-              botMessage.id ?? messageIndex,
-              controller,
-            );
-          },
-        });
+        //a5470
+        //midjourney功能start
+        if (
+          content.toLowerCase().startsWith("/mj") ||
+          content.toLowerCase().startsWith("/MJ")
+        ) {
+          botMessage.model = "midjourney";
+          const startFn = async () => {
+            const prompt = content.substring(3).trim();
+            let action: string = "IMAGINE";
+            console.log(action);
+            const firstSplitIndex = prompt.indexOf("::");
+            if (firstSplitIndex > 0) {
+              action = prompt.substring(0, firstSplitIndex);
+            }
+            if (
+              ![
+                "CUSTOM",
+                "IMAGINE",
+                "DESCRIBE",
+                "BLEND",
+              ].includes(action)
+            ) {
+              botMessage.content = Locale.Midjourney.TaskErrUnknownType;
+              botMessage.streaming = false;
+              return;
+            }
+            botMessage.attr.action = action;
+            let actionIndex: any = null;
+            let actionUseTaskId: any = null;
+            let cmd: any = null;
+            if (action === "CUSTOM") {
+              const s = prompt.substring(firstSplitIndex + 2)
+              const nextIndex = s.indexOf("::");
+              actionUseTaskId = s.substring(0, nextIndex)
+              cmd = s.substring(nextIndex + 2);
+            }
+            try {
+              const imageBase64s =
+                extAttr?.useImages?.map((ui: any) => ui.base64) || [];
+              const res = await fetch("/api/midjourney/task/submit", {
+                method: "POST",
+                headers: getHeaders(),
+                body: JSON.stringify({
+                  prompt: prompt,
+                  images: imageBase64s,
+                  action: action,
+                  cmd: cmd,
+                  index: actionIndex,
+                  taskId: actionUseTaskId,
+                  msgId: extAttr?.botMsg?.msgId,
+                  flags: extAttr?.botMsg?.flags,
+                  msgHash: extAttr?.botMsg?.msgHash,
+                }),
+              });
+              if (res == null) {
+                botMessage.content =
+                  Locale.Midjourney.TaskErrNotSupportType(action);
+                botMessage.streaming = false;
+                return;
+              }
+              if (!res.ok) {
+                const text = await res.text();
+                botMessage.content = res.status === 401 ? `${Locale.Error.Unauthorized}\n\`\`\`json\n${text}\n\`\`\`\n` : Locale.Midjourney.TaskSubmitErr(
+                  text || Locale.Midjourney.UnknownError,
+                );
+              } else {
+                const resJson = await res.json();
+                if (resJson.status == 'FAIL' || resJson.code !== 0) {
+                  botMessage.content = Locale.Midjourney.TaskSubmitErr(
+                    resJson.msg || resJson.error || Locale.Midjourney.UnknownError,
+                  );
+                } else {
+                  const taskId: string = resJson.taskId;
+                  const prefixContent = Locale.Midjourney.TaskPrefix(
+                    prompt,
+                    taskId,
+                  );
+                  botMessage.content =
+                    prefixContent +
+                    `[${new Date().toLocaleString()}] - ${Locale.Midjourney.TaskSubmitOk
+                    }: ` + Locale.Midjourney.PleaseWait;
+                  botMessage.attr.taskId = taskId;
+                  botMessage.attr.status = resJson.status;
+                  this.fetchMidjourneyStatus(botMessage, extAttr);
+                }
+              }
+            } catch (e: any) {
+              console.error(e);
+              botMessage.content = Locale.Midjourney.TaskSubmitErr(
+                e?.error || e?.message || Locale.Midjourney.UnknownError,
+              );
+            } finally {
+              ChatControllerPool.remove(
+                sessionId,
+                botMessage.id ?? messageIndex,
+              );
+              botMessage.streaming = false;
+            }
+          };
+          await startFn();
+          get().onNewMessage(botMessage);
+          set(() => ({}));
+          extAttr?.setAutoScroll(true);
+          //midjourney功能over
+          //ps此处引入了if...else函数，目的是判断是否输入/mj，以下的else是原来的功能
+        } else {
+
+          // make request
+          api.llm.chat({
+            messages: sendMessages,
+            config: { ...modelConfig, stream: true },
+            onUpdate(message) {
+              botMessage.streaming = true;
+              if (message) {
+                botMessage.content = message;
+              }
+              get().updateCurrentSession((session) => {
+                session.messages = session.messages.concat();
+              });
+            },
+            onFinish(message) {
+              botMessage.streaming = false;
+              if (message) {
+                botMessage.content = message;
+                get().onNewMessage(botMessage);
+              }
+              ChatControllerPool.remove(session.id, botMessage.id);
+            },
+            onError(error) {
+              const isAborted = error.message.includes("aborted");
+              botMessage.content +=
+                "\n\n" +
+                prettyObject({
+                  error: true,
+                  message: error.message,
+                });
+              botMessage.streaming = false;
+              userMessage.isError = !isAborted;
+              botMessage.isError = !isAborted;
+              get().updateCurrentSession((session) => {
+                session.messages = session.messages.concat();
+              });
+              ChatControllerPool.remove(
+                session.id,
+                botMessage.id ?? messageIndex,
+              );
+
+              console.error("[Chat] failed ", error);
+            },
+            onController(controller) {
+              // collect controller for stop/retry
+              ChatControllerPool.addController(
+                session.id,
+                botMessage.id ?? messageIndex,
+                controller,
+              );
+            },
+          });
+        }
       },
 
       getMemoryPrompt() {
@@ -406,14 +681,14 @@ export const useChatStore = createPersistStore(
         const shouldInjectSystemPrompts = modelConfig.enableInjectSystemPrompts;
         const systemPrompts = shouldInjectSystemPrompts
           ? [
-              createMessage({
-                role: "system",
-                content: fillTemplateWith("", {
-                  ...modelConfig,
-                  template: DEFAULT_SYSTEM_TEMPLATE,
-                }),
+            createMessage({
+              role: "system",
+              content: fillTemplateWith("", {
+                ...modelConfig,
+                template: DEFAULT_SYSTEM_TEMPLATE,
               }),
-            ]
+            }),
+          ]
           : [];
         if (shouldInjectSystemPrompts) {
           console.log(
@@ -523,8 +798,8 @@ export const useChatStore = createPersistStore(
             onFinish(message) {
               get().updateCurrentSession(
                 (session) =>
-                  (session.topic =
-                    message.length > 0 ? trimTopic(message) : DEFAULT_TOPIC),
+                (session.topic =
+                  message.length > 0 ? trimTopic(message) : DEFAULT_TOPIC),
               );
             },
           });

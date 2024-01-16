@@ -1,6 +1,9 @@
 import { getClientConfig } from "../config/client";
 import { ACCESS_CODE_PREFIX } from "../constant";
-import { ChatMessage, ModelType, useAccessStore } from "../store";
+
+//a5470
+//midjourney功能 import新增了useAppConfig
+import { ChatMessage, ModelType, useAccessStore , useAppConfig} from "../store";
 import { ChatGPTApi } from "./platforms/openai";
 
 export const ROLES = ["system", "user", "assistant"] as const;
@@ -148,4 +151,21 @@ export function getHeaders() {
   }
 
   return headers;
+}
+
+//a5470
+//midjourney功能
+export function useGetMidjourneySelfProxyUrl(url: string) {
+  const config = useAppConfig.getState();
+  if (config.useMjImgSelfProxy) {
+    const accessStore = useAccessStore.getState();
+    url = url.replace("https://cdn.discordapp.com", "/cdn/discordapp");
+    if (accessStore.accessCode) {
+      url +=
+        (url.includes("?") ? "&" : "?") +
+        "Authorization=" +
+        accessStore.accessCode;
+    }
+  }
+  return url;
 }

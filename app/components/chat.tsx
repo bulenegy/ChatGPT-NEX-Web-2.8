@@ -28,6 +28,12 @@ import EditIcon from "../icons/rename.svg";
 import ConfirmIcon from "../icons/confirm.svg";
 import CancelIcon from "../icons/cancel.svg";
 
+//a5470
+//midjourney功能start
+//上传图标
+import UploadIcon from "../icons/upload.svg";
+//midjourney功能over
+
 import LightIcon from "../icons/light.svg";
 import DarkIcon from "../icons/dark.svg";
 import AutoIcon from "../icons/auto.svg";
@@ -408,6 +414,10 @@ export function ChatActions(props: {
   showPromptModal: () => void;
   scrollToBottom: () => void;
   showPromptHints: () => void;
+  //a5470 
+  //midjourney功能start
+  imageSelected: (img: any) => void;
+  //midjourney功能over
   hitBottom: boolean;
 }) {
   const config = useAppConfig();
@@ -427,6 +437,30 @@ export function ChatActions(props: {
   // stop all responses
   const couldStop = ChatControllerPool.hasPending();
   const stopAll = () => ChatControllerPool.stopAll();
+
+  //a5470 
+  //midjourney功能start
+  //图片选择功能
+  function selectImage() {
+    document.getElementById("chat-image-file-select-upload")?.click();
+  }
+
+  const onImageSelected = (e: any) => {
+    const file = e.target.files[0];
+    const filename = file.name;
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      const base64 = reader.result;
+      props.imageSelected({
+        filename,
+        base64,
+      });
+    };
+    e.target.value = null;
+  };
+  //midjourney功能over
+
 
   // switch model
   const currentModel = chatStore.currentSession().mask.modelConfig.model;
@@ -514,6 +548,27 @@ export function ChatActions(props: {
         text={currentModel}
         icon={<RobotIcon />}
       />
+
+      {/* a5470 
+      midjourney功能start
+      图片上传按钮 */}
+      <ChatAction
+        onClick={selectImage}
+        text="选择图片"
+        icon={<UploadIcon />}
+        innerNode={
+          <input
+            type="file"
+            accept=".png,.jpg,.webp,.jpeg"
+            id="chat-image-file-select-upload"
+            style={{ display: "none" }}
+            onChange={onImageSelected}
+          />
+        }
+      />
+      {/* midjourney功能over */}
+
+
 
       {showModelSelector && (
         <Selector
@@ -611,6 +666,13 @@ function _Chat() {
 
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const [userInput, setUserInput] = useState("");
+
+  //a5470
+  //midjourney功能start
+  const [useImages, setUseImages] = useState<any[]>([]);
+  const [mjImageMode, setMjImageMode] = useState<string>("IMAGINE");
+  //midjourney功能over
+
   const [isLoading, setIsLoading] = useState(false);
   const { submitKey, shouldSubmit } = useSubmitHandler();
   const { scrollRef, setAutoScroll, scrollDomToBottom } = useScrollToBottom();
@@ -684,8 +746,36 @@ function _Chat() {
     }
   };
 
-  const doSubmit = (userInput: string) => {
-    if (userInput.trim() === "") return;
+  // const doSubmit = (userInput: string) => {
+  //   if (userInput.trim() === "") return;
+  //   const matchCommand = chatCommands.match(userInput);
+  //   if (matchCommand.matched) {
+  //     setUserInput("");
+  //     setPromptHints([]);
+  //     matchCommand.invoke();
+  //     return;
+  //   }
+  //   setIsLoading(true);
+  //   chatStore.onUserInput(userInput).then(() => setIsLoading(false));
+  //   localStorage.setItem(LAST_INPUT_KEY, userInput);
+  //   setUserInput("");
+  //   setPromptHints([]);
+  //   if (!isMobileScreen) inputRef.current?.focus();
+  //   setAutoScroll(true);
+  // };
+  //以上为原版
+  //a5470
+  //midjourney功能start
+  const doSubmit = async (userInput: string, extAttr?: any) => {
+    userInput = userInput.trim();
+    if (useImages.length > 0) {
+      if (mjImageMode === "IMAGINE" && userInput == "") {
+        alert(Locale.Midjourney.NeedInputUseImgPrompt);
+        return;
+      }
+    } else {
+      if (userInput == "") return;
+    }
     const matchCommand = chatCommands.match(userInput);
     if (matchCommand.matched) {
       setUserInput("");
@@ -693,14 +783,29 @@ function _Chat() {
       matchCommand.invoke();
       return;
     }
-    setIsLoading(true);
-    chatStore.onUserInput(userInput).then(() => setIsLoading(false));
-    localStorage.setItem(LAST_INPUT_KEY, userInput);
-    setUserInput("");
-    setPromptHints([]);
-    if (!isMobileScreen) inputRef.current?.focus();
-    setAutoScroll(true);
+    try {
+      const res: any = await chatStore.onUserInput(userInput, {
+        useImages,
+        mjImageMode,
+        setAutoScroll,
+        botMsg: extAttr?.botMsg,
+      });
+      if (res !== false) {
+        localStorage.setItem(LAST_INPUT_KEY, userInput);
+        setUserInput("");
+        setUseImages([]);
+        setMjImageMode("BLEND");
+        setPromptHints([]);
+        if (!isMobileScreen) inputRef.current?.focus();
+        setAutoScroll(true);
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsLoading(false);
+    }
   };
+  //midjourney功能over
 
   const onPromptSelect = (prompt: RenderPompt) => {
     setTimeout(() => {
@@ -882,27 +987,27 @@ function _Chat() {
       .concat(
         isLoading
           ? [
-              {
-                ...createMessage({
-                  role: "assistant",
-                  content: "……",
-                }),
-                preview: true,
-              },
-            ]
+            {
+              ...createMessage({
+                role: "assistant",
+                content: "……",
+              }),
+              preview: true,
+            },
+          ]
           : [],
       )
       .concat(
         userInput.length > 0 && config.sendPreviewBubble
           ? [
-              {
-                ...createMessage({
-                  role: "user",
-                  content: userInput,
-                }),
-                preview: true,
-              },
-            ]
+            {
+              ...createMessage({
+                role: "user",
+                content: userInput,
+              }),
+              preview: true,
+            },
+          ]
           : [],
       );
   }, [
@@ -995,7 +1100,7 @@ function _Chat() {
         if (payload.key || payload.url) {
           showConfirm(
             Locale.URLCommand.Settings +
-              `\n${JSON.stringify(payload, null, 4)}`,
+            `\n${JSON.stringify(payload, null, 4)}`,
           ).then((res) => {
             if (!res) return;
             if (payload.key) {
@@ -1222,6 +1327,42 @@ function _Chat() {
                     />
                   </div>
 
+                  {/* a5470
+                  midjourney功能start */}
+                  {!isUser &&
+                    message.model == "midjourney" &&
+                    message.attr?.finished &&
+                    message.attr?.taskId &&
+                    message.attr?.options?.length && (
+                      <div
+                        className={[
+                          styles["chat-message-actions"],
+                          styles["column-flex"],
+                        ].join(" ")}
+                      >
+                        <div
+                          style={{ marginTop: "6px" }}
+                          className={styles["chat-input-actions"]}
+                        >
+                          {message.attr?.options.map((item: any) => (
+                            <ChatAction
+                              style={{ marginBottom: "6px" }}
+                              key={message.attr.taskId + item.custom}
+                              text={item.label}
+                              onClick={() =>
+                                doSubmit(
+                                  `/mj CUSTOM::${message.attr.taskId}::${item.custom}`,
+                                  {
+                                    botMsg: message.attr,
+                                  }
+                                )
+                              }
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  {/* midjourney功能over */}
                   <div className={styles["chat-message-action-date"]}>
                     {isContext
                       ? Locale.Chat.IsContext
@@ -1253,12 +1394,75 @@ function _Chat() {
             setUserInput("/");
             onSearch("");
           }}
+
+          //a5470
+          //midjourney功能start
+          imageSelected={(img: any) => {
+            if (useImages.length >= 5) {
+              alert(Locale.Midjourney.SelectImgMax(5));
+              return;
+            }
+            setUseImages([...useImages, img]);
+          }}
+        //midjourney功能over
         />
+
+        {/* a5470
+        midjourney功能start */}
+        {useImages.length > 0 && (
+          <div className={styles["chat-select-images"]}>
+            {useImages.map((img: any, i) => (
+              <img
+                src={img.base64}
+                key={i}
+                onClick={() => {
+                  setUseImages(useImages.filter((_, ii) => ii != i));
+                }}
+                title={img.filename}
+                alt={img.filename}
+              />
+            ))}
+            <div style={{ fontSize: "12px", marginBottom: "5px" }}>
+              {[
+                { name: Locale.Midjourney.ModeImagineUseImg, value: "IMAGINE" },
+                { name: Locale.Midjourney.ModeBlend, value: "BLEND" },
+                { name: Locale.Midjourney.ModeDescribe, value: "DESCRIBE" },
+              ].map((item, i) => (
+                <label key={i}>
+                  <input
+                    type="radio"
+                    name="mj-img-mode"
+                    checked={mjImageMode == item.value}
+                    value={item.value}
+                    onChange={(e) => {
+                      setMjImageMode(e.target.value);
+                    }}
+                  />
+                  <span>{item.name}</span>
+                </label>
+              ))}
+            </div>
+            <div style={{ fontSize: "12px", marginBottom: "10px" }}>
+              <small>{Locale.Midjourney.HasImgTip}</small>
+            </div>
+          </div>
+        )}
+        {/* midjourney功能over */}
+
+
         <div className={styles["chat-input-panel-inner"]}>
           <textarea
             ref={inputRef}
             className={styles["chat-input"]}
-            placeholder={Locale.Chat.Input(submitKey)}
+            //a5470以下是原版
+            // placeholder={Locale.Chat.Input(submitKey)}
+            //midjourney功能start
+            placeholder={
+              useImages.length > 0 && mjImageMode != "IMAGINE"
+                  ? Locale.Midjourney.InputDisabled
+                  : Locale.Chat.Input(submitKey)
+            }
+            //midjourney功能over
             onInput={(e) => onInput(e.currentTarget.value)}
             value={userInput}
             onKeyDown={onInputKeyDown}
@@ -1269,6 +1473,10 @@ function _Chat() {
             style={{
               fontSize: config.fontSize,
             }}
+            // a5470
+            //midjourney功能start
+            disabled={useImages.length > 0 && mjImageMode != "IMAGINE"}
+            //midjourney功能over
           />
           <IconButton
             icon={<SendWhiteIcon />}

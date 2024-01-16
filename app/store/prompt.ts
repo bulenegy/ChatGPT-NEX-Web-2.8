@@ -123,6 +123,13 @@ export const usePromptStore = createPersistStore(
     },
 
     search(text: string) {
+      //a5470
+      //midjourney功能start
+      if (text.startsWith("mj ")) {
+        return [];
+      }
+      //midjourney功能over
+
       if (text.length === 0) {
         // return all rompts
         return this.getUserPrompts().concat(SearchService.builtinPrompts);
