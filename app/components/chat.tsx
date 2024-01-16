@@ -778,12 +778,12 @@ function _Chat() {
   const doSubmit = async (userInput: string, extAttr?: any) => {
     userInput = userInput.trim();
     if (useImages.length > 0) {
-      if (mjImageMode === "IMAGINE" && userInput == "") {
+      if (mjImageMode === "IMAGINE" && userInput === "") {
         alert(Locale.Midjourney.NeedInputUseImgPrompt);
         return;
       }
     } else {
-      if (userInput == "") return;
+      if (userInput === "") return;
     }
     const matchCommand = chatCommands.match(userInput);
     if (matchCommand.matched) {
