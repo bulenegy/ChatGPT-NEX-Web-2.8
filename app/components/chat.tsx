@@ -337,6 +337,7 @@ function ChatAction(props: {
   //a5470
   //midjourney功能start
   innerNode?: JSX.Element;
+  style?: React.CSSProperties;
   //midjourney功能over
 
   onClick: () => void;
