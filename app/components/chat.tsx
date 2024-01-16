@@ -1359,6 +1359,7 @@ function _Chat() {
                               style={{ marginBottom: "6px" }}
                               key={message.attr.taskId + item.custom}
                               text={item.label}
+                              icon={<PinIcon />} 
                               onClick={() =>
                                 doSubmit(
                                   `/mj CUSTOM::${message.attr.taskId}::${item.custom}`,
