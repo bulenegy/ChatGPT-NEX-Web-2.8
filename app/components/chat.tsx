@@ -334,6 +334,11 @@ function ClearContextDivider() {
 function ChatAction(props: {
   text: string;
   icon: JSX.Element;
+  //a5470
+  //midjourney功能start
+  innerNode?: JSX.Element;
+  //midjourney功能over
+
   onClick: () => void;
 }) {
   const iconRef = useRef<HTMLDivElement>(null);
@@ -376,6 +381,10 @@ function ChatAction(props: {
       <div className={styles["text"]} ref={textRef}>
         {props.text}
       </div>
+      {/* a5470
+      midjourney功能start */}
+      {props.innerNode}
+      {/* midjourney功能over */}
     </div>
   );
 }
