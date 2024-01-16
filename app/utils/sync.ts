@@ -1,4 +1,5 @@
 import {
+  ChatMessage,
   ChatSession,
   useAccessStore,
   useAppConfig,
@@ -66,9 +67,9 @@ const MergeStates: StateMerger = {
   [StoreKey.Chat]: (localState, remoteState) => {
     // merge sessions
     const localSessions: Record<string, ChatSession> = {};
-    localState.sessions.forEach((s) => (localSessions[s.id] = s));
+    localState.sessions.forEach((s: ChatSession) => (localSessions[s.id] = s));
 
-    remoteState.sessions.forEach((remoteSession) => {
+    remoteState.sessions.forEach((remoteSession: { id: string | number; messages: any[]; }) => {
       const localSession = localSessions[remoteSession.id];
       if (!localSession) {
         // if remote session is new, just merge it
@@ -76,7 +77,7 @@ const MergeStates: StateMerger = {
       } else {
         // if both have the same session id, merge the messages
         const localMessageIds = new Set(localSession.messages.map((v) => v.id));
-        remoteSession.messages.forEach((m) => {
+        remoteSession.messages.forEach((m: ChatMessage) => {
           if (!localMessageIds.has(m.id)) {
             localSession.messages.push(m);
           }
@@ -91,7 +92,7 @@ const MergeStates: StateMerger = {
 
     // sort local sessions with date field in desc order
     localState.sessions.sort(
-      (a, b) =>
+      (a: { lastUpdate: string | number | Date; }, b: { lastUpdate: string | number | Date; }) =>
         new Date(b.lastUpdate).getTime() - new Date(a.lastUpdate).getTime(),
     );
 
@@ -111,8 +112,8 @@ const MergeStates: StateMerger = {
     };
     return localState;
   },
-  // [StoreKey.Config]: mergeWithUpdate<AppState[StoreKey.Config]>,
-  // [StoreKey.Access]: mergeWithUpdate<AppState[StoreKey.Access]>,
+  [StoreKey.Config]: mergeWithUpdate<AppState[StoreKey.Config]>,
+  [StoreKey.Access]: mergeWithUpdate<AppState[StoreKey.Access]>,
 };
 
 export function getLocalAppState() {
@@ -145,18 +146,18 @@ export function mergeAppState(localState: AppState, remoteState: AppState) {
 /**
  * Merge state with `lastUpdateTime`, older state will be override
  */
-// export function mergeWithUpdate<T extends { lastUpdateTime?: number }>(
-//   localState: T,
-//   remoteState: T,
-// ) {
-//   const localUpdateTime = localState.lastUpdateTime ?? 0;
-//   const remoteUpdateTime = localState.lastUpdateTime ?? 1;
+export function mergeWithUpdate<T extends { lastUpdateTime?: number }>(
+  localState: T,
+  remoteState: T,
+) {
+  const localUpdateTime = localState.lastUpdateTime ?? 0;
+  const remoteUpdateTime = localState.lastUpdateTime ?? 1;
 
-//   if (localUpdateTime < remoteUpdateTime) {
-//     merge(remoteState, localState);
-//     return { ...remoteState };
-//   } else {
-//     merge(localState, remoteState);
-//     return { ...localState };
-//   }
-// }
+  if (localUpdateTime < remoteUpdateTime) {
+    merge(remoteState, localState);
+    return { ...remoteState };
+  } else {
+    merge(localState, remoteState);
+    return { ...localState };
+  }
+}
