@@ -6,6 +6,7 @@ import { ISSUE_URL,CONTACT_URL } from "../constant";
 import Locale from "../locales";
 import { showConfirm } from "./ui-lib";
 import { useSyncStore } from "../store/sync";
+import { downloadAs } from "../utils";
 
 import ContactIcon from "../icons/wechat.svg";
 
@@ -28,7 +29,14 @@ export class ErrorBoundary extends React.Component<any, IErrorBoundaryState> {
 
   clearAndSaveData() {
     try {
-      useSyncStore.getState().export();
+      // useSyncStore.getState().export();
+      //a5470 上为原版
+      //midjourney功能start
+      downloadAs(
+        JSON.stringify(localStorage),
+        "chatgpt-midjourney-snapshot.json",
+      );
+      //midjourney功能over
     } finally {
       localStorage.clear();
       location.reload();
