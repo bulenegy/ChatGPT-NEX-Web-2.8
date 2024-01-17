@@ -78,6 +78,9 @@ export const useSyncStore = create<SyncStore>()(
           Authorization: `Basic ${auth}`,
         };
       },
+
+      
+
     }),
     {
       name: StoreKey.Sync,
