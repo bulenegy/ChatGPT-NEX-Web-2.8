@@ -756,7 +756,10 @@ export function Settings() {
               onClick={() => setShowPromptModal(true)}
             />
           </ListItem>
-
+          
+          {/* a5470
+          midjourney功能start */}
+          {/* 是都选择使用自生服务器DNS，用于查看生成的图片 */}
           <ListItem
             title={`Midjourney ${Locale.Midjourney.ImageAgent}`}
             subTitle={Locale.Midjourney.ImageAgentOpenTip}
@@ -772,23 +775,7 @@ export function Settings() {
               }
             ></input>
           </ListItem>
-        </List>
-        <List>
-          <ListItem
-            title={`Midjourney ${Locale.Midjourney.ImageAgent}`}
-            subTitle={Locale.Midjourney.ImageAgentOpenTip}
-          >
-            <input
-              type="checkbox"
-              checked={config.useMjImgSelfProxy}
-              onChange={(e) =>
-                updateConfig(
-                  (config) =>
-                    (config.useMjImgSelfProxy = e.currentTarget.checked),
-                )
-              }
-            ></input>
-          </ListItem>
+          {/* midjourney功能over */}
         </List>
 
 
