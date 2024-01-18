@@ -299,13 +299,13 @@ function SyncItems() {
             }}
           /> */}
           {/* 临时注释20240118 */}
-          <IconButton
+          {/* <IconButton
             icon={<DownloadIcon />}
             text={Locale.UI.Import}
             onClick={() => {
               syncStore.import();
             }}
-          />
+          /> */}
         </div>
       </ListItem>
     </List>
