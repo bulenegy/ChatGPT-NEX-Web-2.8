@@ -291,13 +291,14 @@ function SyncItems() {
         subTitle={Locale.Settings.Sync.Overview(stateOverview)}
       >
         <div style={{ display: "flex" }}>
-          <IconButton
+          {/* <IconButton
             icon={<UploadIcon />}
             text={Locale.UI.Export}
             onClick={() => {
               syncStore.export();
             }}
-          />
+          /> */}
+          {/* 临时注释20240118 */}
           <IconButton
             icon={<DownloadIcon />}
             text={Locale.UI.Import}
