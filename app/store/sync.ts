@@ -22,6 +22,7 @@ export interface SyncStore {
 
 const FILE = {
   root: "/chatgpt-next-web/",
+  
 };
 
 export const useSyncStore = create<SyncStore>()(
