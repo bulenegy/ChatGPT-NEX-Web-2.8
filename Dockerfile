@@ -6,10 +6,22 @@ RUN apk add --no-cache libc6-compat
 
 WORKDIR /app
 
-COPY package.json yarn.lock ./
 
-RUN yarn config set registry 'https://registry.npmmirror.com/'
-RUN yarn install
+# a5470
+# 原版start
+# COPY package.json yarn.lock ./
+
+# RUN yarn config set registry 'https://registry.npmmirror.com/'
+# RUN yarn install
+# 原版over
+
+# a5470
+# midjourney功能start
+COPY package.json pnpm-lock.yaml ./
+RUN npm install pnpm -g
+RUN pnpm config set registry 'https://registry.npmjs.org/'
+RUN pnpm install --no-frozen-lockfile
+# midjourney功能over
 
 FROM base AS builder
 
