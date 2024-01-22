@@ -337,10 +337,11 @@ function ChatAction(props: {
   //a5470
   //midjourney功能start
   innerNode?: JSX.Element;
-  style?: React.CSSProperties;
+  
   //midjourney功能over
 
   onClick: () => void;
+  style?: React.CSSProperties;
 }) {
   const iconRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);

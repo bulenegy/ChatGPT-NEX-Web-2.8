@@ -22,7 +22,6 @@ export interface SyncStore {
 
 const FILE = {
   root: "/chatgpt-next-web/",
-  
 };
 
 export const useSyncStore = create<SyncStore>()(
@@ -79,9 +78,6 @@ export const useSyncStore = create<SyncStore>()(
           Authorization: `Basic ${auth}`,
         };
       },
-
-      
-
     }),
     {
       name: StoreKey.Sync,
