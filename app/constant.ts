@@ -11,9 +11,9 @@ export const RUNTIME_CONFIG_DOM = "danger-runtime-config";
 //a5470 chatgpt api代理接口修改
 export const DEFAULT_API_HOST = "https://api.openai.com/";
 // export const DEFAULT_API_HOST = "http://chat.apagpt.com/api";
-export const HELP_URL = "https://j.apagpt.com/help";
-export const LEARN_URL="https://j.apagpt.com/help"
-export const CONTACT_URL="https://j.apagpt.com/contact"
+export const HELP_URL = "https://j.ncre.top//help";
+export const LEARN_URL="https://j.ncre.top/help"
+export const CONTACT_URL="https://j.ncre.top/contact"
 
 export enum Path {
   Home = "/",

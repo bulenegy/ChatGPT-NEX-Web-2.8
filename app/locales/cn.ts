@@ -7,8 +7,8 @@ const cn = {
   WIP: "该功能仍在开发中……",
   Error: {
     Unauthorized: isApp
-      ? "检测到无效 API Key，请前往[登录](/#/login)页检查 API Key 是否配置正确。如需帮助请点击http://j.apagpt.com/help"
-      : "您尚未输入API key或API key已过期，请前往[登录](/#/login)页输入正确的API key，或者点击此链接购买http://j.apagpt.com/help",
+      ? "检测到无效 API Key，请前往[登录](/#/login)页检查 API Key 是否配置正确。如需帮助请点击http://j.ncre.top/help"
+      : "您尚未输入API key或API key已过期，请前往[登录](/#/login)页输入正确的API key，或者点击此链接购买http://j.ncre.top/help",
   },
   Auth: {
     Title: "需要API key才能使用",
